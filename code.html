@@ -313,51 +313,57 @@ Dec 15, 2023 • 09:00 AM
 <div class="col-span-12 lg:col-span-4 bg-surface-container-lowest rounded-xl p-stack-md shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-outline-variant/30 flex flex-col">
 <div class="flex justify-between items-center mb-stack-sm">
 <h3 class="font-headline-md text-headline-md text-on-surface">Today's Timetable</h3>
-<button class="text-primary hover:text-primary-container transition-colors p-1">
-<span class="material-symbols-outlined">more_horiz</span>
+<button id="add-timetable-btn" class="text-primary hover:text-primary-container transition-colors p-1" aria-label="Add timetable entry">
+<span class="material-symbols-outlined">add</span>
 </button>
 </div>
-<div class="flex-1 flex flex-col gap-4 mt-2 overflow-y-auto pr-2" style="max-height: 400px;">
-<div class="flex gap-4 group">
-<div class="flex flex-col items-center w-12 pt-1">
-<span class="font-label-sm text-label-sm text-on-surface-variant">10:00</span>
-<div class="w-px h-full bg-outline-variant/50 group-hover:bg-primary/30 transition-colors my-1"></div>
+<div id="timetable-list" class="flex-1 flex flex-col gap-4 mt-2 overflow-y-auto pr-2" style="max-height: 400px;">
+<!-- Timetable entries rendered here -->
 </div>
-<div class="flex-1 bg-surface-container-low rounded-lg p-3 border-l-4 border-secondary group-hover:bg-surface-container-high transition-colors">
-<h4 class="font-label-md text-label-md text-on-surface font-semibold">Algorithms Lecture</h4>
-<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1 mt-1">
-<span class="material-symbols-outlined" style="font-size: 14px;">location_on</span>
-                                    Room 304, CS Building
-                                </p>
+<div id="timetable-empty" class="hidden flex-1 flex items-center justify-center text-center">
+<div>
+<span class="material-symbols-outlined text-on-surface-variant text-4xl mb-2">schedule</span>
+<p class="font-body-md text-body-md text-on-surface-variant">No classes scheduled</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Add your first class to get started</p>
 </div>
 </div>
-<div class="flex gap-4 group">
-<div class="flex flex-col items-center w-12 pt-1">
-<span class="font-label-sm text-label-sm text-primary font-bold">13:00</span>
-<div class="w-px h-full bg-primary/30 my-1"></div>
 </div>
-<div class="flex-1 bg-primary-fixed/20 rounded-lg p-3 border-l-4 border-primary shadow-sm relative">
-<div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1.5 w-3 h-3 bg-primary rounded-full border-2 border-surface-container-lowest"></div>
-<h4 class="font-label-md text-label-md text-on-surface font-semibold">Study Group: Linear Algebra</h4>
-<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1 mt-1">
-<span class="material-symbols-outlined" style="font-size: 14px;">groups</span>
-                                    Library, 2nd Floor
-                                </p>
+
+<!-- Add Timetable Entry Modal -->
+<div id="timetable-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+<div class="bg-surface-container-lowest rounded-xl shadow-lg p-stack-md max-w-md w-full border border-outline-variant">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline-md text-headline-md text-on-surface">Add Class</h3>
+<button id="close-timetable-modal" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant hover:text-primary"><span class="material-symbols-outlined">close</span></button>
 </div>
+<form id="timetable-form" class="flex flex-col gap-stack-sm">
+<div>
+<label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-timetable-time">Time</label>
+<input id="modal-timetable-time" type="time" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
 </div>
-<div class="flex gap-4 group">
-<div class="flex flex-col items-center w-12 pt-1">
-<span class="font-label-sm text-label-sm text-on-surface-variant">15:30</span>
-<div class="w-px h-full bg-outline-variant/50 group-hover:bg-primary/30 transition-colors my-1"></div>
+<div>
+<label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-timetable-name">Class Name</label>
+<input id="modal-timetable-name" type="text" placeholder="e.g. Algorithms Lecture" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
 </div>
-<div class="flex-1 bg-surface-container-low rounded-lg p-3 border-l-4 border-tertiary group-hover:bg-surface-container-high transition-colors">
-<h4 class="font-label-md text-label-md text-on-surface font-semibold">Database Systems Lab</h4>
-<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1 mt-1">
-<span class="material-symbols-outlined" style="font-size: 14px;">computer</span>
-                                    Lab 2, Engineering Wing
-                                </p>
+<div>
+<label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-timetable-location">Location</label>
+<input id="modal-timetable-location" type="text" placeholder="e.g. Room 304, CS Building" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
 </div>
+<div>
+<label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-timetable-type">Class Type</label>
+<select id="modal-timetable-type" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+<option value="lecture">Lecture</option>
+<option value="lab">Lab</option>
+<option value="study">Study Group</option>
+<option value="tutorial">Tutorial</option>
+<option value="other">Other</option>
+</select>
 </div>
+<div class="flex justify-end gap-3 mt-4">
+<button id="cancel-timetable-modal" type="button" class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-4 py-2 rounded-lg hover:bg-surface-container">Cancel</button>
+<button type="submit" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-4 py-2 rounded-lg shadow-sm">Add Class</button>
+</div>
+</form>
 </div>
 </div>
 <!-- Recent Notes Section -->
@@ -676,5 +682,186 @@ loadExamData();
 
 // Update countdown every minute
 setInterval(updateCountdown, 60000);
+
+// ===== TIMETABLE FUNCTIONALITY =====
+
+const timetableStorageKey = "studymate-timetable";
+const timetableList = document.getElementById("timetable-list");
+const timetableEmpty = document.getElementById("timetable-empty");
+const addTimetableBtn = document.getElementById("add-timetable-btn");
+const timetableModal = document.getElementById("timetable-modal");
+const closeTimetableModalBtn = document.getElementById("close-timetable-modal");
+const timetableForm = document.getElementById("timetable-form");
+const modalTimetableTime = document.getElementById("modal-timetable-time");
+const modalTimetableName = document.getElementById("modal-timetable-name");
+const modalTimetableLocation = document.getElementById("modal-timetable-location");
+const modalTimetableType = document.getElementById("modal-timetable-type");
+
+let timetableEntries = [];
+
+// Default timetable entries
+const defaultTimetableEntries = [
+	{ id: "entry-1", time: "10:00", name: "Algorithms Lecture", location: "Room 304, CS Building", type: "lecture" },
+	{ id: "entry-2", time: "13:00", name: "Study Group: Linear Algebra", location: "Library, 2nd Floor", type: "study" },
+	{ id: "entry-3", time: "15:30", name: "Database Systems Lab", location: "Lab 2, Engineering Wing", type: "lab" }
+];
+
+// Load timetable data from localStorage
+function loadTimetableData() {
+	const saved = localStorage.getItem(timetableStorageKey);
+	if (saved) {
+		timetableEntries = JSON.parse(saved);
+	} else {
+		timetableEntries = [...defaultTimetableEntries];
+		saveTimetableData();
+	}
+	renderTimetable();
+}
+
+// Save timetable data to localStorage
+function saveTimetableData() {
+	localStorage.setItem(timetableStorageKey, JSON.stringify(timetableEntries));
+}
+
+// Get icon based on class type
+function getTypeIcon(type) {
+	const icons = {
+		lecture: "school",
+		lab: "computer",
+		study: "groups",
+		tutorial: "menu_book",
+		other: "schedule"
+	};
+	return icons[type] || icons.other;
+}
+
+// Get color based on class type (border color)
+function getTypeColor(type) {
+	const colors = {
+		lecture: "border-secondary",
+		lab: "border-tertiary",
+		study: "border-primary",
+		tutorial: "border-secondary-fixed",
+		other: "border-outline-variant"
+	};
+	return colors[type] || colors.other;
+}
+
+// Format time for display (HH:MM)
+function formatTime(timeStr) {
+	const [hours, minutes] = timeStr.split(":");
+	return `${hours}:${minutes}`;
+}
+
+// Render timetable entries
+function renderTimetable() {
+	// Sort entries by time
+	const sorted = [...timetableEntries].sort((a, b) => a.time.localeCompare(b.time));
+	
+	if (sorted.length === 0) {
+		timetableList.classList.add("hidden");
+		timetableEmpty.classList.remove("hidden");
+		return;
+	}
+	
+	timetableList.classList.remove("hidden");
+	timetableEmpty.classList.add("hidden");
+	
+	timetableList.innerHTML = sorted.map((entry, index) => `
+		<div class="flex gap-4 group">
+			<div class="flex flex-col items-center w-12 pt-1">
+				<span class="font-label-sm text-label-sm ${index === 0 ? 'text-primary font-bold' : 'text-on-surface-variant'}">${formatTime(entry.time)}</span>
+				<div class="w-px h-full ${index === 0 ? 'bg-primary/30' : 'bg-outline-variant/50 group-hover:bg-primary/30'} transition-colors my-1"></div>
+			</div>
+			<div class="flex-1 ${index === 0 ? 'bg-primary-fixed/20 rounded-lg p-3 border-l-4 border-primary shadow-sm relative' : 'bg-surface-container-low rounded-lg p-3 border-l-4 ' + getTypeColor(entry.type) + ' group-hover:bg-surface-container-high transition-colors'}">
+				${index === 0 ? '<div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1.5 w-3 h-3 bg-primary rounded-full border-2 border-surface-container-lowest"></div>' : ''}
+				<div class="flex items-start justify-between gap-2">
+					<div class="flex-1">
+						<h4 class="font-label-md text-label-md text-on-surface font-semibold">${escapeHtml(entry.name)}</h4>
+						<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1 mt-1">
+							<span class="material-symbols-outlined" style="font-size: 14px;">location_on</span>
+							${escapeHtml(entry.location)}
+						</p>
+					</div>
+					<button type="button" data-delete-timetable="${entry.id}" class="p-1 rounded text-on-surface-variant hover:bg-error-container hover:text-error opacity-0 group-hover:opacity-100 transition-opacity" aria-label="Delete class">
+						<span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	`).join("");
+	
+	// Add delete event listeners
+	timetableList.querySelectorAll("[data-delete-timetable]").forEach(btn => {
+		btn.addEventListener("click", () => {
+			const id = btn.dataset.deleteTimetable;
+			deleteTimetableEntry(id);
+		});
+	});
+}
+
+// Add new timetable entry
+function addTimetableEntry(time, name, location, type) {
+	const entry = {
+		id: crypto.randomUUID ? crypto.randomUUID() : "entry-" + Date.now(),
+		time,
+		name: name.trim(),
+		location: location.trim(),
+		type
+	};
+	timetableEntries.push(entry);
+	saveTimetableData();
+	renderTimetable();
+}
+
+// Delete timetable entry
+function deleteTimetableEntry(id) {
+	timetableEntries = timetableEntries.filter(entry => entry.id !== id);
+	saveTimetableData();
+	renderTimetable();
+}
+
+// Open timetable add modal
+function openTimetableModal() {
+	modalTimetableTime.value = "";
+	modalTimetableName.value = "";
+	modalTimetableLocation.value = "";
+	modalTimetableType.value = "lecture";
+	timetableModal.classList.remove("hidden");
+	modalTimetableTime.focus();
+}
+
+// Close timetable add modal
+function closeTimetableModal() {
+	timetableModal.classList.add("hidden");
+	timetableForm.reset();
+}
+
+// Handle timetable form submission
+timetableForm.addEventListener("submit", event => {
+	event.preventDefault();
+	const time = modalTimetableTime.value;
+	const name = modalTimetableName.value.trim();
+	const location = modalTimetableLocation.value.trim();
+	const type = modalTimetableType.value;
+	
+	if (time && name && location) {
+		addTimetableEntry(time, name, location, type);
+		closeTimetableModal();
+	}
+});
+
+// Event listeners for timetable modal
+addTimetableBtn.addEventListener("click", openTimetableModal);
+closeTimetableModalBtn.addEventListener("click", closeTimetableModal);
+document.getElementById("cancel-timetable-modal").addEventListener("click", closeTimetableModal);
+
+// Close modal when clicking outside
+timetableModal.addEventListener("click", event => {
+	if (event.target === timetableModal) closeTimetableModal();
+});
+
+// Load timetable data on page load
+loadTimetableData();
 </script>
 </body></html>
