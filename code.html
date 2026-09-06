@@ -204,7 +204,7 @@
                 </a>
 </li>
 <li class="">
-<a class="flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200" href="#">
+<a id="exams-nav" class="flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200" href="#exams">
 <span class="material-symbols-outlined" data-icon="event_note">event_note</span>
                     Exams
                 </a>
@@ -305,6 +305,33 @@ Dec 15, 2023 • 09:00 AM
 <div class="flex justify-end gap-3 mt-4">
 <button id="cancel-exam-modal" type="button" class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-4 py-2 rounded-lg hover:bg-surface-container">Cancel</button>
 <button type="submit" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-4 py-2 rounded-lg shadow-sm">Save Exam</button>
+</div>
+</form>
+</div>
+</div>
+<!-- Add Exam Modal -->
+<div id="add-exam-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+<div class="bg-surface-container-lowest rounded-xl shadow-lg p-stack-md max-w-md w-full border border-outline-variant">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline-md text-headline-md text-on-surface">Add Exam</h3>
+<button id="close-add-exam-modal" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant hover:text-primary"><span class="material-symbols-outlined">close</span></button>
+</div>
+<form id="add-exam-form" class="flex flex-col gap-stack-sm">
+<div>
+<label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-add-exam-name">Exam Name</label>
+<input id="modal-add-exam-name" type="text" placeholder="e.g. Chemistry Midterm" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-add-exam-subject">Subject</label>
+<input id="modal-add-exam-subject" type="text" placeholder="e.g. Chemistry" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-add-exam-date">Exam Date & Time</label>
+<input id="modal-add-exam-date" type="datetime-local" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+</div>
+<div class="flex justify-end gap-3 mt-4">
+<button id="cancel-add-exam-modal" type="button" class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-4 py-2 rounded-lg hover:bg-surface-container">Cancel</button>
+<button type="submit" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-4 py-2 rounded-lg shadow-sm">Add Exam</button>
 </div>
 </form>
 </div>
@@ -467,6 +494,27 @@ Dec 15, 2023 • 09:00 AM
 <p class="font-body-md text-body-md text-on-surface-variant mt-1">Add your first class to start building your timetable.</p>
 </div>
 </section>
+<!-- Exams Workspace -->
+<section id="exams-view" class="hidden" aria-labelledby="exams-heading">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-stack-md mb-stack-lg">
+<div>
+<p class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-2">Assessment schedule</p>
+<h2 id="exams-heading" class="font-headline-lg text-headline-lg text-on-surface mb-2">Exams</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Manage and track all your upcoming exams.</p>
+</div>
+<button id="new-exam-button" type="button" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-stack-sm px-4 rounded-lg transition-all duration-200 shadow-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add</span> Add Exam
+</button>
+</div>
+<div id="exams-view-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter mt-stack-md">
+<!-- Exam entries rendered here -->
+</div>
+<div id="exams-view-empty" class="hidden bg-surface-container-low rounded-xl border border-dashed border-outline-variant p-10 text-center">
+<span class="material-symbols-outlined text-on-surface-variant text-5xl">event_note</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-3">No exams scheduled</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Add your first exam to start managing your assessments.</p>
+</div>
+</section>
 </main>
 </div>
 <script>
@@ -483,6 +531,8 @@ const notesView = document.getElementById("notes-view");
 const notesNav = document.getElementById("notes-nav");
 const timetableView = document.getElementById("timetable-view");
 const timetableNav = document.getElementById("timetable-nav");
+const examsView = document.getElementById("exams-view");
+const examsNav = document.getElementById("exams-nav");
 const homeNav = document.querySelector('a[href="#"]');
 const searchInput = document.getElementById("global-search");
 const noteEditor = document.getElementById("note-editor");
@@ -492,6 +542,15 @@ const notesEmpty = document.getElementById("notes-empty");
 const timetableViewList = document.getElementById("timetable-view-list");
 const timetableViewEmpty = document.getElementById("timetable-view-empty");
 const newTimetableButton = document.getElementById("new-timetable-button");
+const examsViewList = document.getElementById("exams-view-list");
+const examsViewEmpty = document.getElementById("exams-view-empty");
+const newExamButton = document.getElementById("new-exam-button");
+const addExamModal = document.getElementById("add-exam-modal");
+const closeAddExamModalBtn = document.getElementById("close-add-exam-modal");
+const addExamForm = document.getElementById("add-exam-form");
+const modalAddExamName = document.getElementById("modal-add-exam-name");
+const modalAddExamSubject = document.getElementById("modal-add-exam-subject");
+const modalAddExamDate = document.getElementById("modal-add-exam-date");
 
 function saveNotes() {
         localStorage.setItem(notesStorageKey, JSON.stringify(notes));
@@ -535,8 +594,10 @@ function showNotes() {
         dashboardViews.forEach(view => view.classList.add("hidden"));
         notesView.classList.remove("hidden");
         timetableView.classList.add("hidden");
+        examsView.classList.add("hidden");
         notesNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md border-l-4 border-primary bg-surface-container-low text-primary font-bold hover:bg-surface-container-high transition-colors duration-200";
         timetableNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200";
+        examsNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200";
         renderNotes();
 }
 
@@ -544,17 +605,32 @@ function showTimetable() {
         dashboardViews.forEach(view => view.classList.add("hidden"));
         notesView.classList.add("hidden");
         timetableView.classList.remove("hidden");
+        examsView.classList.add("hidden");
         timetableNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md border-l-4 border-primary bg-surface-container-low text-primary font-bold hover:bg-surface-container-high transition-colors duration-200";
         notesNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200";
+        examsNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200";
         renderTimetableView();
+}
+
+function showExams() {
+        dashboardViews.forEach(view => view.classList.add("hidden"));
+        notesView.classList.add("hidden");
+        timetableView.classList.add("hidden");
+        examsView.classList.remove("hidden");
+        examsNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md border-l-4 border-primary bg-surface-container-low text-primary font-bold hover:bg-surface-container-high transition-colors duration-200";
+        notesNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200";
+        timetableNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200";
+        renderExamsView();
 }
 
 function showDashboard() {
         notesView.classList.add("hidden");
         timetableView.classList.add("hidden");
+        examsView.classList.add("hidden");
         dashboardViews.forEach(view => view.classList.remove("hidden"));
         notesNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200";
         timetableNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200";
+        examsNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200";
 }
 
 function openEditor(note) {
@@ -577,11 +653,13 @@ function closeEditor() {
 
 notesNav.addEventListener("click", event => { event.preventDefault(); showNotes(); });
 timetableNav.addEventListener("click", event => { event.preventDefault(); showTimetable(); });
+examsNav.addEventListener("click", event => { event.preventDefault(); showExams(); });
 homeNav.addEventListener("click", event => { event.preventDefault(); showDashboard(); });
 document.getElementById("view-all-notes").addEventListener("click", event => { event.preventDefault(); showNotes(); });
 document.getElementById("dashboard-new-note").addEventListener("click", () => { showNotes(); openEditor(); });
 document.getElementById("new-note-button").addEventListener("click", () => openEditor());
 newTimetableButton.addEventListener("click", openTimetableModal);
+newExamButton.addEventListener("click", openAddExamModal);
 document.getElementById("cancel-note-button").addEventListener("click", closeEditor);
 document.getElementById("cancel-note-button-secondary").addEventListener("click", closeEditor);
 searchInput.addEventListener("input", () => { if (!notesView.classList.contains("hidden")) renderNotes(); });
@@ -723,6 +801,150 @@ loadExamData();
 
 // Update countdown every minute
 setInterval(updateCountdown, 60000);
+
+// ===== EXAMS FUNCTIONALITY =====
+
+const examsStorageKey = "studymate-exams";
+let examsList = [];
+
+// Default exam entries
+const defaultExams = [
+	{ id: "exam-1", name: "Data Structures Final", subject: "Computer Science", datetime: "2023-12-15T09:00" },
+	{ id: "exam-2", name: "Chemistry Midterm", subject: "Chemistry", datetime: "2023-12-20T14:00" },
+	{ id: "exam-3", name: "Physics Final", subject: "Physics", datetime: "2023-12-25T10:00" }
+];
+
+// Load exams from localStorage
+function loadExamsData() {
+	const saved = localStorage.getItem(examsStorageKey);
+	if (saved) {
+		examsList = JSON.parse(saved);
+	} else {
+		examsList = [...defaultExams];
+		saveExamsData();
+	}
+	updateUpcomingExam();
+}
+
+// Save exams to localStorage
+function saveExamsData() {
+	localStorage.setItem(examsStorageKey, JSON.stringify(examsList));
+}
+
+// Update upcoming exam in countdown (earliest by date)
+function updateUpcomingExam() {
+	if (examsList.length === 0) {
+		examNameInput.value = "No Exam Scheduled";
+		examDatetimeInput.value = "";
+		updateExamDisplay();
+		return;
+	}
+	
+	// Sort by date and select earliest
+	const sorted = [...examsList].sort((a, b) => a.datetime.localeCompare(b.datetime));
+	const upcomingExam = sorted[0];
+	examNameInput.value = upcomingExam.name;
+	examDatetimeInput.value = upcomingExam.datetime;
+	updateExamDisplay();
+}
+
+// Render exams in full-page view
+function renderExamsView() {
+	const sorted = [...examsList].sort((a, b) => a.datetime.localeCompare(b.datetime));
+	
+	if (sorted.length === 0) {
+		examsViewList.classList.add("hidden");
+		examsViewEmpty.classList.remove("hidden");
+		return;
+	}
+	
+	examsViewList.classList.remove("hidden");
+	examsViewEmpty.classList.add("hidden");
+	
+	examsViewList.innerHTML = sorted.map((exam) => `
+		<div class="bg-surface-container-lowest rounded-xl p-stack-sm shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-outline-variant/30 hover:shadow-[0px_10px_32px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300 flex flex-col">
+			<div class="flex justify-between items-start gap-2 mb-2">
+				<span class="bg-surface-container-high text-on-surface px-2 py-0.5 rounded font-label-sm text-label-sm">${escapeHtml(exam.subject)}</span>
+				<span class="text-on-surface-variant font-label-sm text-label-sm whitespace-nowrap">${formatDatetime(exam.datetime)}</span>
+			</div>
+			<h3 class="font-headline-md text-headline-md text-on-surface mb-2 leading-tight">${escapeHtml(exam.name)}</h3>
+			<div class="flex justify-end gap-1 mt-auto pt-3 border-t border-outline-variant/30">
+				<button type="button" data-delete-exam="${exam.id}" class="p-2 rounded-full text-on-surface-variant hover:bg-error-container hover:text-error" aria-label="Delete exam"><span class="material-symbols-outlined">delete</span></button>
+			</div>
+		</div>
+	`).join("");
+	
+	// Add delete event listeners
+	examsViewList.querySelectorAll("[data-delete-exam]").forEach(btn => {
+		btn.addEventListener("click", () => {
+			const id = btn.dataset.deleteExam;
+			deleteExam(id);
+		});
+	});
+}
+
+// Add new exam
+function addExam(name, subject, datetime) {
+	const exam = {
+		id: crypto.randomUUID ? crypto.randomUUID() : "exam-" + Date.now(),
+		name: name.trim(),
+		subject: subject.trim(),
+		datetime
+	};
+	examsList.push(exam);
+	saveExamsData();
+	updateUpcomingExam();
+	if (!examsView.classList.contains("hidden")) {
+		renderExamsView();
+	}
+}
+
+// Delete exam
+function deleteExam(id) {
+	examsList = examsList.filter(exam => exam.id !== id);
+	saveExamsData();
+	updateUpcomingExam();
+	if (!examsView.classList.contains("hidden")) {
+		renderExamsView();
+	}
+}
+
+// Open add exam modal
+function openAddExamModal() {
+	modalAddExamName.value = "";
+	modalAddExamSubject.value = "";
+	modalAddExamDate.value = "";
+	addExamModal.classList.remove("hidden");
+	modalAddExamName.focus();
+}
+
+// Close add exam modal
+function closeAddExamModal() {
+	addExamModal.classList.add("hidden");
+	addExamForm.reset();
+}
+
+// Handle add exam form submission
+addExamForm.addEventListener("submit", event => {
+	event.preventDefault();
+	const name = modalAddExamName.value.trim();
+	const subject = modalAddExamSubject.value.trim();
+	const datetime = modalAddExamDate.value;
+	
+	if (name && subject && datetime) {
+		addExam(name, subject, datetime);
+		closeAddExamModal();
+	}
+});
+
+// Event listeners for add exam modal
+closeAddExamModalBtn.addEventListener("click", closeAddExamModal);
+document.getElementById("cancel-add-exam-modal").addEventListener("click", closeAddExamModal);
+
+// Close modal when clicking outside
+addExamModal.addEventListener("click", event => {
+	if (event.target === addExamModal) closeAddExamModal();
+});
 
 // ===== TIMETABLE FUNCTIONALITY =====
 
