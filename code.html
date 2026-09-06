@@ -256,28 +256,57 @@
 <div class="absolute -right-20 -top-20 w-64 h-64 bg-primary-fixed/30 rounded-full blur-3xl group-hover:bg-primary-fixed/50 transition-all duration-500"></div>
 <div class="relative z-10 flex flex-col h-full justify-between">
 <div>
-<span class="inline-block px-3 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm mb-4 font-semibold uppercase tracking-wider">Upcoming Exam</span>
-<h3 class="font-display-lg text-display-lg text-on-surface mb-2">Data Structures Final</h3>
-<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2">
+<div class="flex items-center justify-between mb-4">
+<span class="inline-block px-3 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold uppercase tracking-wider">Upcoming Exam</span>
+<button id="edit-exam-btn" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant hover:text-primary transition-colors" aria-label="Edit exam date"><span class="material-symbols-outlined" style="font-size: 20px;">edit</span></button>
+</div>
+<h3 id="exam-title" class="font-display-lg text-display-lg text-on-surface mb-2">Data Structures Final</h3>
+<p id="exam-date-display" class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2">
 <span class="material-symbols-outlined text-sm">event</span>
-                                Dec 15, 2023 • 09:00 AM
-                            </p>
+Dec 15, 2023 • 09:00 AM
+</p>
+<input type="hidden" id="exam-name" value="Data Structures Final">
+<input type="hidden" id="exam-datetime" value="2023-12-15T09:00">
 </div>
 <div class="mt-8 flex gap-stack-md items-center"><div class="flex flex-col items-center bg-surface-container-low border border-outline-variant/30 rounded-lg p-3 min-w-[80px] shadow-sm">
-    <span class="font-display-lg text-display-lg text-primary leading-none" style="font-variant-numeric: tabular-nums;">12</span>
+    <span id="countdown-days" class="font-display-lg text-display-lg text-primary leading-none" style="font-variant-numeric: tabular-nums;">12</span>
     <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mt-1">Days</span>
 </div>
 <div class="flex flex-col items-center bg-surface-container-low border border-outline-variant/30 rounded-lg p-3 min-w-[80px] shadow-sm">
-    <span class="font-display-lg text-display-lg text-primary leading-none" style="font-variant-numeric: tabular-nums;">14</span>
+    <span id="countdown-hours" class="font-display-lg text-display-lg text-primary leading-none" style="font-variant-numeric: tabular-nums;">14</span>
     <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mt-1">Hours</span>
 </div>
 <div class="flex flex-col items-center bg-surface-container-low border border-outline-variant/30 rounded-lg p-3 min-w-[80px] shadow-sm">
-    <span class="font-display-lg text-display-lg text-primary leading-none" style="font-variant-numeric: tabular-nums;">45</span>
+    <span id="countdown-mins" class="font-display-lg text-display-lg text-primary leading-none" style="font-variant-numeric: tabular-nums;">45</span>
     <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mt-1">Mins</span>
 </div></div>
 <div class="mt-6 w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-gradient-to-r from-secondary to-primary w-3/4 rounded-full"></div>
+<div id="countdown-progress" class="h-full bg-gradient-to-r from-secondary to-primary w-3/4 rounded-full"></div>
 </div>
+</div>
+</div>
+
+<!-- Exam Edit Modal (Hidden by default) -->
+<div id="exam-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+<div class="bg-surface-container-lowest rounded-xl shadow-lg p-stack-md max-w-md w-full border border-outline-variant">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline-md text-headline-md text-on-surface">Set Exam Details</h3>
+<button id="close-exam-modal" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant hover:text-primary"><span class="material-symbols-outlined">close</span></button>
+</div>
+<form id="exam-form" class="flex flex-col gap-stack-sm">
+<div>
+<label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-exam-name">Exam Name</label>
+<input id="modal-exam-name" type="text" placeholder="e.g. Data Structures Final" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-exam-date">Exam Date & Time</label>
+<input id="modal-exam-date" type="datetime-local" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+</div>
+<div class="flex justify-end gap-3 mt-4">
+<button id="cancel-exam-modal" type="button" class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-4 py-2 rounded-lg hover:bg-surface-container">Cancel</button>
+<button type="submit" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-4 py-2 rounded-lg shadow-sm">Save Exam</button>
+</div>
+</form>
 </div>
 </div>
 <!-- Today's Timetable (Bento style tall) -->
@@ -528,5 +557,124 @@ notesGrid.addEventListener("click", event => {
                 renderNotes();
         }
 });
+
+// ===== EXAM COUNTDOWN FUNCTIONALITY =====
+
+const examStorageKey = "studymate-exam";
+const examNameInput = document.getElementById("exam-name");
+const examDatetimeInput = document.getElementById("exam-datetime");
+const examModal = document.getElementById("exam-modal");
+const editExamBtn = document.getElementById("edit-exam-btn");
+const closeExamModalBtn = document.getElementById("close-exam-modal");
+const examForm = document.getElementById("exam-form");
+const modalExamName = document.getElementById("modal-exam-name");
+const modalExamDate = document.getElementById("modal-exam-date");
+const examTitleDisplay = document.getElementById("exam-title");
+const examDateDisplay = document.getElementById("exam-date-display");
+const countdownDays = document.getElementById("countdown-days");
+const countdownHours = document.getElementById("countdown-hours");
+const countdownMins = document.getElementById("countdown-mins");
+const countdownProgress = document.getElementById("countdown-progress");
+
+// Load exam data from localStorage
+function loadExamData() {
+        const saved = localStorage.getItem(examStorageKey);
+        if (saved) {
+                const exam = JSON.parse(saved);
+                examNameInput.value = exam.name;
+                examDatetimeInput.value = exam.datetime;
+                updateExamDisplay();
+        }
+}
+
+// Save exam data to localStorage
+function saveExamData() {
+        const exam = {
+                name: examNameInput.value,
+                datetime: examDatetimeInput.value
+        };
+        localStorage.setItem(examStorageKey, JSON.stringify(exam));
+}
+
+// Format datetime string to readable format (e.g., "Dec 15, 2023 • 09:00 AM")
+function formatDatetime(datetimeStr) {
+        const date = new Date(datetimeStr);
+        const options = { month: "short", day: "numeric", year: "numeric" };
+        const dateStr = date.toLocaleDateString("en-US", options);
+        const timeStr = date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+        return `${dateStr} • ${timeStr}`;
+}
+
+// Update the exam display with current values
+function updateExamDisplay() {
+        examTitleDisplay.textContent = examNameInput.value || "No Exam Set";
+        examDateDisplay.innerHTML = `<span class="material-symbols-outlined text-sm">event</span>${formatDatetime(examDatetimeInput.value)}`;
+        updateCountdown();
+}
+
+// Calculate countdown time remaining
+function calculateCountdown() {
+        const examDate = new Date(examDatetimeInput.value);
+        const now = new Date();
+        const timeRemaining = examDate - now;
+        
+        if (timeRemaining <= 0) {
+                return { days: 0, hours: 0, minutes: 0, percentage: 0 };
+        }
+        
+        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        
+        return { days, hours, minutes, percentage: Math.max(0, Math.min(100, 100 - (days / 30) * 100)) };
+}
+
+// Update countdown display
+function updateCountdown() {
+        const { days, hours, minutes, percentage } = calculateCountdown();
+        countdownDays.textContent = String(days).padStart(2, "0");
+        countdownHours.textContent = String(hours).padStart(2, "0");
+        countdownMins.textContent = String(minutes).padStart(2, "0");
+        countdownProgress.style.width = percentage + "%";
+}
+
+// Open exam edit modal
+function openExamModal() {
+        modalExamName.value = examNameInput.value;
+        modalExamDate.value = examDatetimeInput.value;
+        examModal.classList.remove("hidden");
+        modalExamName.focus();
+}
+
+// Close exam edit modal
+function closeExamModal() {
+        examModal.classList.add("hidden");
+}
+
+// Handle exam form submission
+examForm.addEventListener("submit", event => {
+        event.preventDefault();
+        examNameInput.value = modalExamName.value.trim() || "Untitled Exam";
+        examDatetimeInput.value = modalExamDate.value;
+        saveExamData();
+        updateExamDisplay();
+        closeExamModal();
+});
+
+// Event listeners for exam modal
+editExamBtn.addEventListener("click", openExamModal);
+closeExamModalBtn.addEventListener("click", closeExamModal);
+document.getElementById("cancel-exam-modal").addEventListener("click", closeExamModal);
+
+// Close modal when clicking outside
+examModal.addEventListener("click", event => {
+        if (event.target === examModal) closeExamModal();
+});
+
+// Load exam data on page load
+loadExamData();
+
+// Update countdown every minute
+setInterval(updateCountdown, 60000);
 </script>
 </body></html>
