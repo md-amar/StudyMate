@@ -198,7 +198,7 @@
                 </a>
 </li>
 <li class="">
-<a class="flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200" href="#">
+<a id="notes-nav" class="flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200" href="#notes">
 <span class="material-symbols-outlined" data-icon="description">description</span>
                     Notes
                 </a>
@@ -233,7 +233,7 @@
 <header class="flex justify-between items-center w-full px-margin-desktop py-stack-md bg-surface dark:bg-on-background flat no shadows z-40 sticky top-0">
 <div class="flex items-center gap-stack-sm w-full max-w-md bg-surface-container-lowest border border-outline-variant rounded-full px-4 py-2 focus-within:ring-2 focus-within:ring-secondary/50 focus-within:border-transparent transition-all">
 <span class="material-symbols-outlined text-outline">search</span>
-<input class="bg-transparent border-none focus:ring-0 outline-none w-full font-body-md text-body-md text-on-surface placeholder-on-surface-variant" placeholder="Search notes, schedules..." type="text">
+<input id="global-search" class="bg-transparent border-none focus:ring-0 outline-none w-full font-body-md text-body-md text-on-surface placeholder-on-surface-variant" placeholder="Search notes, schedules..." type="text">
 </div>
 <div class="flex items-center gap-stack-sm">
 <button class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant transition-colors duration-200 hover:text-primary">
@@ -335,7 +335,7 @@
 <div class="col-span-12 mt-stack-md">
 <div class="flex justify-between items-center mb-stack-md">
 <h3 class="font-headline-md text-headline-md text-on-surface">Recent Notes</h3>
-<a class="font-label-md text-label-md text-primary hover:underline flex items-center gap-1" href="#">
+<a id="view-all-notes" class="font-label-md text-label-md text-primary hover:underline flex items-center gap-1" href="#notes">
                             View all <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
 </a>
 </div>
@@ -363,7 +363,7 @@
                             </p>
 </div>
 <!-- Create New Note Placeholder -->
-<div class="bg-surface-container/50 border-2 border-dashed border-outline-variant/50 rounded-xl p-stack-sm hover:border-primary hover:bg-surface-container-low transition-colors duration-300 cursor-pointer flex flex-col items-center justify-center h-48 group text-center">
+<div id="dashboard-new-note" class="bg-surface-container/50 border-2 border-dashed border-outline-variant/50 rounded-xl p-stack-sm hover:border-primary hover:bg-surface-container-low transition-colors duration-300 cursor-pointer flex flex-col items-center justify-center h-48 group text-center">
 <div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center mb-3 group-hover:bg-primary-container group-hover:text-on-primary transition-colors text-on-surface-variant">
 <span class="material-symbols-outlined">edit_document</span>
 </div>
@@ -373,6 +373,160 @@
 </div>
 </div>
 </div>
+<!-- Notes Workspace -->
+<section id="notes-view" class="hidden" aria-labelledby="notes-heading">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-stack-md mb-stack-lg">
+<div>
+<p class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-2">Your knowledge base</p>
+<h2 id="notes-heading" class="font-headline-lg text-headline-lg text-on-surface mb-2">Notes</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Capture the ideas worth returning to.</p>
+</div>
+<button id="new-note-button" type="button" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-stack-sm px-4 rounded-lg transition-all duration-200 shadow-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add</span> New note
+</button>
+</div>
+<div id="note-editor" class="hidden bg-surface-container-lowest rounded-xl p-stack-md border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] mb-stack-lg">
+<div class="flex items-center justify-between mb-stack-sm">
+<h3 id="editor-heading" class="font-headline-md text-headline-md text-on-surface">Create note</h3>
+<button id="cancel-note-button" type="button" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant hover:text-primary" aria-label="Close note editor"><span class="material-symbols-outlined">close</span></button>
+</div>
+<form id="note-form" class="grid gap-stack-sm">
+<input id="note-id" type="hidden">
+<label class="font-label-md text-label-md text-on-surface" for="note-title">Title</label>
+<input id="note-title" required maxlength="80" class="bg-surface-container-low border-outline-variant rounded-lg focus:border-secondary focus:ring-secondary/50 font-body-md text-body-md" placeholder="e.g. Dynamic Programming" type="text">
+<label class="font-label-md text-label-md text-on-surface" for="note-subject">Subject</label>
+<input id="note-subject" required maxlength="40" class="bg-surface-container-low border-outline-variant rounded-lg focus:border-secondary focus:ring-secondary/50 font-body-md text-body-md" placeholder="e.g. Algorithms" type="text">
+<label class="font-label-md text-label-md text-on-surface" for="note-content">Note</label>
+<textarea id="note-content" required rows="5" class="bg-surface-container-low border-outline-variant rounded-lg focus:border-secondary focus:ring-secondary/50 font-body-md text-body-md" placeholder="Write down the idea..."></textarea>
+<div class="flex justify-end gap-3 mt-2">
+<button id="cancel-note-button-secondary" type="button" class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-4 py-2 rounded-lg hover:bg-surface-container">Cancel</button>
+<button type="submit" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-4 py-2 rounded-lg shadow-sm"><span id="save-note-label">Save note</span></button>
+</div>
+</form>
+</div>
+<div id="notes-empty" class="hidden bg-surface-container-low rounded-xl border border-dashed border-outline-variant p-10 text-center">
+<span class="material-symbols-outlined text-primary text-5xl">edit_document</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-3">Your notes will live here</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Create your first note to start building your study library.</p>
+</div>
+<div id="notes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter"></div>
+</section>
 </main>
 </div>
+<script>
+const notesStorageKey = "studymate-notes";
+const starterNotes = [
+        { id: "starter-algorithms", title: "Dynamic Programming", subject: "Algorithms", content: "Explored memoization vs tabulation. Always draw the dependency graph first to determine topological order before coding the iterative solution.", updatedAt: Date.now() + 2 * 60 * 60 * 1000 },
+        { id: "starter-linear-algebra", title: "Eigenvalues & Eigenvectors", subject: "Linear Algebra", content: "det(A - lambda I) = 0. The characteristic polynomial provides the eigenvalues. Geometric multiplicity is less than or equal to algebraic multiplicity.", updatedAt: Date.now() - 24 * 60 * 60 * 1000 }
+];
+let notes = JSON.parse(localStorage.getItem(notesStorageKey) || "null") || starterNotes;
+let editingNoteId = null;
+
+const dashboardViews = document.querySelectorAll("main > div");
+const notesView = document.getElementById("notes-view");
+const notesNav = document.getElementById("notes-nav");
+const homeNav = document.querySelector('a[href="#"]');
+const searchInput = document.getElementById("global-search");
+const noteEditor = document.getElementById("note-editor");
+const noteForm = document.getElementById("note-form");
+const notesGrid = document.getElementById("notes-grid");
+const notesEmpty = document.getElementById("notes-empty");
+
+function saveNotes() {
+        localStorage.setItem(notesStorageKey, JSON.stringify(notes));
+}
+
+function relativeDate(timestamp) {
+        const minutes = Math.max(1, Math.floor((Date.now() - timestamp) / 60000));
+        if (minutes < 60) return `${minutes} min ago`;
+        if (minutes < 1440) return `${Math.floor(minutes / 60)} hr ago`;
+        if (minutes < 2880) return "Yesterday";
+        return new Date(timestamp).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+}
+
+function escapeHtml(value) {
+        return value.replace(/[&<>'"]/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
+}
+
+function renderNotes() {
+        const query = searchInput.value.trim().toLowerCase();
+        const filteredNotes = notes.filter(note => `${note.title} ${note.subject} ${note.content}`.toLowerCase().includes(query));
+        notesEmpty.classList.toggle("hidden", filteredNotes.length > 0 || Boolean(query));
+        notesGrid.innerHTML = filteredNotes.map(note => `
+                <article class="bg-surface-container-lowest rounded-xl p-stack-sm shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-outline-variant/30 hover:shadow-[0px_10px_32px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300 flex flex-col min-h-56">
+                        <div class="flex justify-between items-start gap-2 mb-2">
+                                <span class="bg-surface-container-high text-on-surface px-2 py-0.5 rounded font-label-sm text-label-sm">${escapeHtml(note.subject)}</span>
+                                <span class="text-on-surface-variant font-label-sm text-label-sm whitespace-nowrap">${relativeDate(note.updatedAt)}</span>
+                        </div>
+                        <h3 class="font-headline-md text-headline-md text-on-surface mb-2 leading-tight">${escapeHtml(note.title)}</h3>
+                        <p class="font-body-md text-body-md text-on-surface-variant line-clamp-4 text-sm flex-1 whitespace-pre-line">${escapeHtml(note.content)}</p>
+                        <div class="flex justify-end gap-1 mt-4 pt-3 border-t border-outline-variant/30">
+                                <button type="button" data-edit-note="${note.id}" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-primary" aria-label="Edit ${escapeHtml(note.title)}"><span class="material-symbols-outlined">edit</span></button>
+                                <button type="button" data-delete-note="${note.id}" class="p-2 rounded-full text-on-surface-variant hover:bg-error-container hover:text-error" aria-label="Delete ${escapeHtml(note.title)}"><span class="material-symbols-outlined">delete</span></button>
+                        </div>
+                </article>`).join("");
+        if (query && filteredNotes.length === 0) {
+                notesGrid.innerHTML = '<p class="col-span-full font-body-md text-body-md text-on-surface-variant py-8 text-center">No notes match your search.</p>';
+        }
+}
+
+function showNotes() {
+        dashboardViews.forEach(view => view.classList.add("hidden"));
+        notesView.classList.remove("hidden");
+        notesNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md border-l-4 border-primary bg-surface-container-low text-primary font-bold hover:bg-surface-container-high transition-colors duration-200";
+        renderNotes();
+}
+
+function showDashboard() {
+        notesView.classList.add("hidden");
+        dashboardViews.forEach(view => view.classList.remove("hidden"));
+        notesNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200";
+}
+
+function openEditor(note) {
+        editingNoteId = note ? note.id : null;
+        document.getElementById("editor-heading").textContent = note ? "Edit note" : "Create note";
+        document.getElementById("save-note-label").textContent = note ? "Update note" : "Save note";
+        document.getElementById("note-id").value = note ? note.id : "";
+        document.getElementById("note-title").value = note ? note.title : "";
+        document.getElementById("note-subject").value = note ? note.subject : "";
+        document.getElementById("note-content").value = note ? note.content : "";
+        noteEditor.classList.remove("hidden");
+        document.getElementById("note-title").focus();
+}
+
+function closeEditor() {
+        noteEditor.classList.add("hidden");
+        noteForm.reset();
+        editingNoteId = null;
+}
+
+notesNav.addEventListener("click", event => { event.preventDefault(); showNotes(); });
+homeNav.addEventListener("click", event => { event.preventDefault(); showDashboard(); });
+document.getElementById("view-all-notes").addEventListener("click", event => { event.preventDefault(); showNotes(); });
+document.getElementById("dashboard-new-note").addEventListener("click", () => { showNotes(); openEditor(); });
+document.getElementById("new-note-button").addEventListener("click", () => openEditor());
+document.getElementById("cancel-note-button").addEventListener("click", closeEditor);
+document.getElementById("cancel-note-button-secondary").addEventListener("click", closeEditor);
+searchInput.addEventListener("input", () => { if (!notesView.classList.contains("hidden")) renderNotes(); });
+noteForm.addEventListener("submit", event => {
+        event.preventDefault();
+        const noteData = { title: document.getElementById("note-title").value.trim(), subject: document.getElementById("note-subject").value.trim(), content: document.getElementById("note-content").value.trim(), updatedAt: Date.now() };
+        if (editingNoteId) notes = notes.map(note => note.id === editingNoteId ? { ...note, ...noteData } : note);
+        else notes.unshift({ id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()), ...noteData });
+        saveNotes();
+        closeEditor();
+        renderNotes();
+});
+notesGrid.addEventListener("click", event => {
+        const editButton = event.target.closest("[data-edit-note]");
+        const deleteButton = event.target.closest("[data-delete-note]");
+        if (editButton) openEditor(notes.find(note => note.id === editButton.dataset.editNote));
+        if (deleteButton) {
+                notes = notes.filter(note => note.id !== deleteButton.dataset.deleteNote);
+                saveNotes();
+                renderNotes();
+        }
+});
+</script>
 </body></html>
