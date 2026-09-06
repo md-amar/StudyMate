@@ -192,7 +192,7 @@
                 </a>
 </li>
 <li class="">
-<a class="flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200" href="#">
+<a id="timetable-nav" class="flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200" href="#timetable">
 <span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
                     Timetable
                 </a>
@@ -446,6 +446,27 @@ Dec 15, 2023 • 09:00 AM
 </div>
 <div id="notes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter"></div>
 </section>
+<!-- Timetable Workspace -->
+<section id="timetable-view" class="hidden" aria-labelledby="timetable-heading">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-stack-md mb-stack-lg">
+<div>
+<p class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-2">Today's schedule</p>
+<h2 id="timetable-heading" class="font-headline-lg text-headline-lg text-on-surface mb-2">Timetable</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">View and manage your classes for today.</p>
+</div>
+<button id="new-timetable-button" type="button" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-stack-sm px-4 rounded-lg transition-all duration-200 shadow-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add</span> Add Class
+</button>
+</div>
+<div id="timetable-view-list" class="flex flex-col gap-stack-md mt-stack-md">
+<!-- Timetable entries rendered here -->
+</div>
+<div id="timetable-view-empty" class="hidden bg-surface-container-low rounded-xl border border-dashed border-outline-variant p-10 text-center">
+<span class="material-symbols-outlined text-on-surface-variant text-5xl">schedule</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-3">No classes scheduled</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Add your first class to start building your timetable.</p>
+</div>
+</section>
 </main>
 </div>
 <script>
@@ -460,12 +481,17 @@ let editingNoteId = null;
 const dashboardViews = document.querySelectorAll("main > div");
 const notesView = document.getElementById("notes-view");
 const notesNav = document.getElementById("notes-nav");
+const timetableView = document.getElementById("timetable-view");
+const timetableNav = document.getElementById("timetable-nav");
 const homeNav = document.querySelector('a[href="#"]');
 const searchInput = document.getElementById("global-search");
 const noteEditor = document.getElementById("note-editor");
 const noteForm = document.getElementById("note-form");
 const notesGrid = document.getElementById("notes-grid");
 const notesEmpty = document.getElementById("notes-empty");
+const timetableViewList = document.getElementById("timetable-view-list");
+const timetableViewEmpty = document.getElementById("timetable-view-empty");
+const newTimetableButton = document.getElementById("new-timetable-button");
 
 function saveNotes() {
         localStorage.setItem(notesStorageKey, JSON.stringify(notes));
@@ -508,14 +534,27 @@ function renderNotes() {
 function showNotes() {
         dashboardViews.forEach(view => view.classList.add("hidden"));
         notesView.classList.remove("hidden");
+        timetableView.classList.add("hidden");
         notesNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md border-l-4 border-primary bg-surface-container-low text-primary font-bold hover:bg-surface-container-high transition-colors duration-200";
+        timetableNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200";
         renderNotes();
+}
+
+function showTimetable() {
+        dashboardViews.forEach(view => view.classList.add("hidden"));
+        notesView.classList.add("hidden");
+        timetableView.classList.remove("hidden");
+        timetableNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md border-l-4 border-primary bg-surface-container-low text-primary font-bold hover:bg-surface-container-high transition-colors duration-200";
+        notesNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200";
+        renderTimetableView();
 }
 
 function showDashboard() {
         notesView.classList.add("hidden");
+        timetableView.classList.add("hidden");
         dashboardViews.forEach(view => view.classList.remove("hidden"));
         notesNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200";
+        timetableNav.className = "flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200";
 }
 
 function openEditor(note) {
@@ -537,10 +576,12 @@ function closeEditor() {
 }
 
 notesNav.addEventListener("click", event => { event.preventDefault(); showNotes(); });
+timetableNav.addEventListener("click", event => { event.preventDefault(); showTimetable(); });
 homeNav.addEventListener("click", event => { event.preventDefault(); showDashboard(); });
 document.getElementById("view-all-notes").addEventListener("click", event => { event.preventDefault(); showNotes(); });
 document.getElementById("dashboard-new-note").addEventListener("click", () => { showNotes(); openEditor(); });
 document.getElementById("new-note-button").addEventListener("click", () => openEditor());
+newTimetableButton.addEventListener("click", openTimetableModal);
 document.getElementById("cancel-note-button").addEventListener("click", closeEditor);
 document.getElementById("cancel-note-button-secondary").addEventListener("click", closeEditor);
 searchInput.addEventListener("input", () => { if (!notesView.classList.contains("hidden")) renderNotes(); });
@@ -812,6 +853,9 @@ function addTimetableEntry(time, name, location, type) {
 	timetableEntries.push(entry);
 	saveTimetableData();
 	renderTimetable();
+	if (!timetableView.classList.contains("hidden")) {
+		renderTimetableView();
+	}
 }
 
 // Delete timetable entry
@@ -819,6 +863,9 @@ function deleteTimetableEntry(id) {
 	timetableEntries = timetableEntries.filter(entry => entry.id !== id);
 	saveTimetableData();
 	renderTimetable();
+	if (!timetableView.classList.contains("hidden")) {
+		renderTimetableView();
+	}
 }
 
 // Open timetable add modal
@@ -860,6 +907,53 @@ document.getElementById("cancel-timetable-modal").addEventListener("click", clos
 timetableModal.addEventListener("click", event => {
 	if (event.target === timetableModal) closeTimetableModal();
 });
+
+// Render timetable in full-page view
+function renderTimetableView() {
+	// Sort entries by time
+	const sorted = [...timetableEntries].sort((a, b) => a.time.localeCompare(b.time));
+	
+	if (sorted.length === 0) {
+		timetableViewList.classList.add("hidden");
+		timetableViewEmpty.classList.remove("hidden");
+		return;
+	}
+	
+	timetableViewList.classList.remove("hidden");
+	timetableViewEmpty.classList.add("hidden");
+	
+	timetableViewList.innerHTML = sorted.map((entry, index) => `
+		<div class="flex gap-4 group">
+			<div class="flex flex-col items-center w-12 pt-1">
+				<span class="font-label-sm text-label-sm ${index === 0 ? 'text-primary font-bold' : 'text-on-surface-variant'}">${formatTime(entry.time)}</span>
+				<div class="w-px h-full ${index === 0 ? 'bg-primary/30' : 'bg-outline-variant/50 group-hover:bg-primary/30'} transition-colors my-1"></div>
+			</div>
+			<div class="flex-1 ${index === 0 ? 'bg-primary-fixed/20 rounded-lg p-3 border-l-4 border-primary shadow-sm relative' : 'bg-surface-container-low rounded-lg p-3 border-l-4 ' + getTypeColor(entry.type) + ' group-hover:bg-surface-container-high transition-colors'}">
+				${index === 0 ? '<div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1.5 w-3 h-3 bg-primary rounded-full border-2 border-surface-container-lowest"></div>' : ''}
+				<div class="flex items-start justify-between gap-2">
+					<div class="flex-1">
+						<h4 class="font-label-md text-label-md text-on-surface font-semibold">${escapeHtml(entry.name)}</h4>
+						<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1 mt-1">
+							<span class="material-symbols-outlined" style="font-size: 14px;">location_on</span>
+							${escapeHtml(entry.location)}
+						</p>
+					</div>
+					<button type="button" data-delete-timetable-view="${entry.id}" class="p-1 rounded text-on-surface-variant hover:bg-error-container hover:text-error opacity-0 group-hover:opacity-100 transition-opacity" aria-label="Delete class">
+						<span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	`).join("");
+	
+	// Add delete event listeners
+	timetableViewList.querySelectorAll("[data-delete-timetable-view]").forEach(btn => {
+		btn.addEventListener("click", () => {
+			const id = btn.dataset.deleteTimetableView;
+			deleteTimetableEntry(id);
+		});
+	});
+}
 
 // Load timetable data on page load
 loadTimetableData();
