@@ -733,12 +733,16 @@ function formatDatetime(datetimeStr) {
 // Update the exam display with current values
 function updateExamDisplay() {
         examTitleDisplay.textContent = examNameInput.value || "No Exam Set";
-        examDateDisplay.innerHTML = `<span class="material-symbols-outlined text-sm">event</span>${formatDatetime(examDatetimeInput.value)}`;
+        examDateDisplay.innerHTML = `<span class="material-symbols-outlined text-sm">event</span>${examDatetimeInput.value ? formatDatetime(examDatetimeInput.value) : "No date scheduled"}`;
         updateCountdown();
 }
 
 // Calculate countdown time remaining
 function calculateCountdown() {
+        if (!examDatetimeInput.value) {
+                return { days: 0, hours: 0, minutes: 0, percentage: 0 };
+        }
+
         const examDate = new Date(examDatetimeInput.value);
         const now = new Date();
         const timeRemaining = examDate - now;
@@ -782,6 +786,15 @@ examForm.addEventListener("submit", event => {
         examNameInput.value = modalExamName.value.trim() || "Untitled Exam";
         examDatetimeInput.value = modalExamDate.value;
         saveExamData();
+        if (typeof examsList !== "undefined") {
+                const selectedExam = examsList.find(exam => exam.id === upcomingExamId);
+                if (selectedExam) {
+                        selectedExam.name = examNameInput.value;
+                        selectedExam.datetime = examDatetimeInput.value;
+                        saveExamsData();
+                        renderExamsView();
+                }
+        }
         updateExamDisplay();
         closeExamModal();
 });
@@ -806,6 +819,7 @@ setInterval(updateCountdown, 60000);
 
 const examsStorageKey = "studymate-exams";
 let examsList = [];
+let upcomingExamId = null;
 
 // Default exam entries
 const defaultExams = [
@@ -818,9 +832,23 @@ const defaultExams = [
 function loadExamsData() {
 	const saved = localStorage.getItem(examsStorageKey);
 	if (saved) {
-		examsList = JSON.parse(saved);
+                try {
+                        examsList = JSON.parse(saved);
+                } catch {
+                        examsList = [];
+                }
 	} else {
-		examsList = [...defaultExams];
+                const existingCountdownExam = localStorage.getItem(examStorageKey);
+                if (existingCountdownExam) {
+                        try {
+                                const exam = JSON.parse(existingCountdownExam);
+                                examsList = [{ id: "exam-migrated", name: exam.name, subject: "General", datetime: exam.datetime }];
+                        } catch {
+                                examsList = [...defaultExams];
+                        }
+                } else {
+                        examsList = [...defaultExams];
+                }
 		saveExamsData();
 	}
 	updateUpcomingExam();
@@ -834,15 +862,17 @@ function saveExamsData() {
 // Update upcoming exam in countdown (earliest by date)
 function updateUpcomingExam() {
 	if (examsList.length === 0) {
+                upcomingExamId = null;
 		examNameInput.value = "No Exam Scheduled";
 		examDatetimeInput.value = "";
 		updateExamDisplay();
 		return;
 	}
 	
-	// Sort by date and select earliest
+        // Prefer the earliest future exam, while retaining an expired entry when no future exam exists.
 	const sorted = [...examsList].sort((a, b) => a.datetime.localeCompare(b.datetime));
-	const upcomingExam = sorted[0];
+        const upcomingExam = sorted.find(exam => new Date(exam.datetime) > new Date()) || sorted[0];
+        upcomingExamId = upcomingExam.id;
 	examNameInput.value = upcomingExam.name;
 	examDatetimeInput.value = upcomingExam.datetime;
 	updateExamDisplay();
@@ -945,6 +975,9 @@ document.getElementById("cancel-add-exam-modal").addEventListener("click", close
 addExamModal.addEventListener("click", event => {
 	if (event.target === addExamModal) closeAddExamModal();
 });
+
+// Load exams after the data functions are defined so the countdown uses the saved list.
+loadExamsData();
 
 // ===== TIMETABLE FUNCTIONALITY =====
 
