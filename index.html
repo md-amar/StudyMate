@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>StudyMate - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="js/tailwind.config.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+<base target="_blank">
+</head>
+<body class="bg-background text-on-background min-h-screen flex font-body-md text-body-md overflow-x-hidden">
+
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[300px] flex flex-col py-stack-lg bg-surface-container-lowest dark:bg-inverse-surface shadow-[0px_4px_20px_rgba(0,0,0,0.03)] z-50">
+  <div class="px-gutter mb-stack-lg flex items-center gap-unit">
+    <img alt="StudyMate logo" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzSSmtc9oLgDdMLw472ZPubetP9w4220xmSvy0_gdPPnvlhLPNCScTLULnuqw4YU4FnZdxa9DbT2vFy_nwOUtpFfadJxuYOLHzrUl2aeufLVm9CmJoDcXPx98WbmeTeWilxwpSNzxXRFBxpUG4eVlUKA0Hwu_UdBvGLBKRZNLF3333lHjQhXxASxn2we2dcoV4Rh4so0_QkCUhtuPgtEeWjlU7sFthYnwHRsNyrqTWtve1TtpAd7dZ">
+    <div>
+      <h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">StudyMate</h1>
+      <p class="font-label-sm text-label-sm text-on-surface-variant">Mental Clarity &amp; Focus</p>
+    </div>
+  </div>
+  <div class="px-gutter mb-stack-md">
+    <button class="w-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-stack-sm rounded-lg transition-all duration-200 shadow-sm flex items-center justify-center gap-2">
+      <span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">add</span>
+      New Study Session
+    </button>
+  </div>
+  <ul class="flex-1 flex flex-col gap-unit px-unit">
+    <li>
+      <a id="home-nav" class="flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md border-l-4 border-primary bg-surface-container-low text-primary font-bold hover:bg-surface-container-high transition-colors duration-200" href="#">
+        <span class="material-symbols-outlined" data-icon="home">home</span>
+        Home
+      </a>
+    </li>
+    <li>
+      <a id="timetable-nav" class="flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200" href="#timetable">
+        <span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+        Timetable
+      </a>
+    </li>
+    <li>
+      <a id="notes-nav" class="flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200" href="#notes">
+        <span class="material-symbols-outlined" data-icon="description">description</span>
+        Notes
+      </a>
+    </li>
+    <li>
+      <a id="exams-nav" class="flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200" href="#exams">
+        <span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+        Exams
+      </a>
+    </li>
+  </ul>
+  <div class="mt-auto px-unit">
+    <ul class="flex flex-col gap-unit">
+      <li>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200" href="#">
+          <span class="material-symbols-outlined" data-icon="settings">settings</span>
+          Settings
+        </a>
+      </li>
+      <li>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200" href="#">
+          <span class="material-symbols-outlined" data-icon="help">help</span>
+          Support
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Main Content Wrapper -->
+<div class="flex-1 ml-[300px] flex flex-col min-h-screen">
+
+  <!-- TopAppBar -->
+  <header class="flex justify-between items-center w-full px-margin-desktop py-stack-md bg-surface dark:bg-on-background z-40 sticky top-0">
+    <div class="flex items-center gap-stack-sm w-full max-w-md bg-surface-container-lowest border border-outline-variant rounded-full px-4 py-2 focus-within:ring-2 focus-within:ring-secondary/50 focus-within:border-transparent transition-all">
+      <span class="material-symbols-outlined text-outline">search</span>
+      <input id="global-search" class="bg-transparent border-none focus:ring-0 outline-none w-full font-body-md text-body-md text-on-surface placeholder-on-surface-variant" placeholder="Search notes, schedules..." type="text">
+    </div>
+    <div class="flex items-center gap-stack-sm">
+      <button class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant transition-colors duration-200 hover:text-primary">
+        <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+      </button>
+      <button class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant transition-colors duration-200 hover:text-primary">
+        <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Canvas -->
+  <main class="flex-1 px-margin-desktop py-stack-md w-full max-w-container-max mx-auto">
+
+    <!-- Dashboard view -->
+    <div id="dashboard-view">
+      <div class="mb-stack-lg">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Welcome Back Boss!!</h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant">Here is your academic overview for today.</p>
+      </div>
+
+      <div class="grid grid-cols-12 gap-gutter">
+        <!-- Countdown Card (Bento style large) -->
+        <div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl p-stack-md shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-outline-variant/30 flex flex-col relative overflow-hidden group hover:shadow-[0px_10px_32px_rgba(0,0,0,0.08)] transition-shadow duration-300">
+          <div class="absolute -right-20 -top-20 w-64 h-64 bg-primary-fixed/30 rounded-full blur-3xl group-hover:bg-primary-fixed/50 transition-all duration-500"></div>
+          <div class="relative z-10 flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="inline-block px-3 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold uppercase tracking-wider">Upcoming Exam</span>
+                <button id="edit-exam-btn" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant hover:text-primary transition-colors" aria-label="Edit exam date"><span class="material-symbols-outlined" style="font-size: 20px;">edit</span></button>
+              </div>
+              <h3 id="exam-title" class="font-display-lg text-display-lg text-on-surface mb-2">Data Structures Final</h3>
+              <p id="exam-date-display" class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">event</span>
+                Dec 15, 2023 &bull; 09:00 AM
+              </p>
+              <input type="hidden" id="exam-name" value="Data Structures Final">
+              <input type="hidden" id="exam-datetime" value="2023-12-15T09:00">
+            </div>
+            <div class="mt-8 flex gap-stack-md items-center">
+              <div class="flex flex-col items-center bg-surface-container-low border border-outline-variant/30 rounded-lg p-3 min-w-[80px] shadow-sm">
+                <span id="countdown-days" class="font-display-lg text-display-lg text-primary leading-none tabular-nums">00</span>
+                <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mt-1">Days</span>
+              </div>
+              <div class="flex flex-col items-center bg-surface-container-low border border-outline-variant/30 rounded-lg p-3 min-w-[80px] shadow-sm">
+                <span id="countdown-hours" class="font-display-lg text-display-lg text-primary leading-none tabular-nums">00</span>
+                <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mt-1">Hours</span>
+              </div>
+              <div class="flex flex-col items-center bg-surface-container-low border border-outline-variant/30 rounded-lg p-3 min-w-[80px] shadow-sm">
+                <span id="countdown-mins" class="font-display-lg text-display-lg text-primary leading-none tabular-nums">00</span>
+                <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mt-1">Mins</span>
+              </div>
+            </div>
+            <div class="mt-6 w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+              <div id="countdown-progress" class="h-full bg-gradient-to-r from-secondary to-primary w-0 rounded-full transition-all duration-500"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Today's Timetable (Bento style tall) -->
+        <div class="col-span-12 lg:col-span-4 bg-surface-container-lowest rounded-xl p-stack-md shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-outline-variant/30 flex flex-col">
+          <div class="flex justify-between items-center mb-stack-sm">
+            <h3 class="font-headline-md text-headline-md text-on-surface">Today's Timetable</h3>
+            <button id="add-timetable-btn" class="text-primary hover:text-primary-container transition-colors p-1" aria-label="Add timetable entry">
+              <span class="material-symbols-outlined">add</span>
+            </button>
+          </div>
+          <div id="timetable-list" class="flex-1 flex flex-col gap-4 mt-2 overflow-y-auto pr-2 timetable-scroll" style="max-height: 400px;"></div>
+          <div id="timetable-empty" class="hidden flex-1 flex items-center justify-center text-center">
+            <div>
+              <span class="material-symbols-outlined text-on-surface-variant text-4xl mb-2">schedule</span>
+              <p class="font-body-md text-body-md text-on-surface-variant">No classes scheduled</p>
+              <p class="font-label-sm text-label-sm text-on-surface-variant">Add your first class to get started</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Notes Section -->
+        <div class="col-span-12 mt-stack-md">
+          <div class="flex justify-between items-center mb-stack-md">
+            <h3 class="font-headline-md text-headline-md text-on-surface">Recent Notes</h3>
+            <a id="view-all-notes" class="font-label-md text-label-md text-primary hover:underline flex items-center gap-1" href="#notes">
+              View all <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+            </a>
+          </div>
+          <div id="dashboard-notes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes Workspace -->
+    <section id="notes-view" class="hidden" aria-labelledby="notes-heading">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-stack-md mb-stack-lg">
+        <div>
+          <p class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-2">Your knowledge base</p>
+          <h2 id="notes-heading" class="font-headline-lg text-headline-lg text-on-surface mb-2">Notes</h2>
+          <p class="font-body-lg text-body-lg text-on-surface-variant">Capture the ideas worth returning to.</p>
+        </div>
+        <button id="new-note-button" type="button" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-stack-sm px-4 rounded-lg transition-all duration-200 shadow-sm flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined">add</span> New note
+        </button>
+      </div>
+      <div id="note-editor" class="hidden bg-surface-container-lowest rounded-xl p-stack-md border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] mb-stack-lg">
+        <div class="flex items-center justify-between mb-stack-sm">
+          <h3 id="editor-heading" class="font-headline-md text-headline-md text-on-surface">Create note</h3>
+          <button id="cancel-note-button" type="button" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant hover:text-primary" aria-label="Close note editor"><span class="material-symbols-outlined">close</span></button>
+        </div>
+        <form id="note-form" class="grid gap-stack-sm">
+          <input id="note-id" type="hidden">
+          <label class="font-label-md text-label-md text-on-surface" for="note-title">Title</label>
+          <input id="note-title" required maxlength="80" class="bg-surface-container-low border border-outline-variant rounded-lg focus:border-secondary focus:ring-secondary/50 font-body-md text-body-md" placeholder="e.g. Dynamic Programming" type="text">
+          <label class="font-label-md text-label-md text-on-surface" for="note-subject">Subject</label>
+          <input id="note-subject" required maxlength="40" class="bg-surface-container-low border border-outline-variant rounded-lg focus:border-secondary focus:ring-secondary/50 font-body-md text-body-md" placeholder="e.g. Algorithms" type="text">
+          <label class="font-label-md text-label-md text-on-surface" for="note-content">Note</label>
+          <textarea id="note-content" required rows="5" class="bg-surface-container-low border border-outline-variant rounded-lg focus:border-secondary focus:ring-secondary/50 font-body-md text-body-md" placeholder="Write down the idea..."></textarea>
+          <div class="flex justify-end gap-3 mt-2">
+            <button id="cancel-note-button-secondary" type="button" class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-4 py-2 rounded-lg hover:bg-surface-container">Cancel</button>
+            <button type="submit" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-4 py-2 rounded-lg shadow-sm"><span id="save-note-label">Save note</span></button>
+          </div>
+        </form>
+      </div>
+      <div id="notes-empty" class="hidden bg-surface-container-low rounded-xl border border-dashed border-outline-variant p-10 text-center">
+        <span class="material-symbols-outlined text-primary text-5xl">edit_document</span>
+        <h3 class="font-headline-md text-headline-md text-on-surface mt-3">Your notes will live here</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-1">Create your first note to start building your study library.</p>
+      </div>
+      <div id="notes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter"></div>
+    </section>
+
+    <!-- Timetable Workspace -->
+    <section id="timetable-view" class="hidden" aria-labelledby="timetable-heading">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-stack-md mb-stack-lg">
+        <div>
+          <p class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-2">Today's schedule</p>
+          <h2 id="timetable-heading" class="font-headline-lg text-headline-lg text-on-surface mb-2">Timetable</h2>
+          <p class="font-body-lg text-body-lg text-on-surface-variant">View and manage your classes for today.</p>
+        </div>
+        <button id="new-timetable-button" type="button" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-stack-sm px-4 rounded-lg transition-all duration-200 shadow-sm flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined">add</span> Add Class
+        </button>
+      </div>
+      <div id="timetable-view-list" class="flex flex-col gap-stack-md mt-stack-md"></div>
+      <div id="timetable-view-empty" class="hidden bg-surface-container-low rounded-xl border border-dashed border-outline-variant p-10 text-center">
+        <span class="material-symbols-outlined text-on-surface-variant text-5xl">schedule</span>
+        <h3 class="font-headline-md text-headline-md text-on-surface mt-3">No classes scheduled</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-1">Add your first class to start building your timetable.</p>
+      </div>
+    </section>
+
+    <!-- Exams Workspace -->
+    <section id="exams-view" class="hidden" aria-labelledby="exams-heading">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-stack-md mb-stack-lg">
+        <div>
+          <p class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-2">Assessment schedule</p>
+          <h2 id="exams-heading" class="font-headline-lg text-headline-lg text-on-surface mb-2">Exams</h2>
+          <p class="font-body-lg text-body-lg text-on-surface-variant">Manage and track all your upcoming exams.</p>
+        </div>
+        <button id="new-exam-button" type="button" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-stack-sm px-4 rounded-lg transition-all duration-200 shadow-sm flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined">add</span> Add Exam
+        </button>
+      </div>
+      <div id="exams-view-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter mt-stack-md"></div>
+      <div id="exams-view-empty" class="hidden bg-surface-container-low rounded-xl border border-dashed border-outline-variant p-10 text-center">
+        <span class="material-symbols-outlined text-on-surface-variant text-5xl">event_note</span>
+        <h3 class="font-headline-md text-headline-md text-on-surface mt-3">No exams scheduled</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-1">Add your first exam to start managing your assessments.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ===== Modals (kept outside <main> so view toggling never touches them) ===== -->
+
+<!-- Exam Edit Modal -->
+<div id="exam-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+  <div class="bg-surface-container-lowest rounded-xl shadow-lg p-stack-md max-w-md w-full border border-outline-variant">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-headline-md text-headline-md text-on-surface">Set Exam Details</h3>
+      <button id="close-exam-modal" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant hover:text-primary"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <form id="exam-form" class="flex flex-col gap-stack-sm">
+      <div>
+        <label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-exam-name">Exam Name</label>
+        <input id="modal-exam-name" type="text" placeholder="e.g. Data Structures Final" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+      </div>
+      <div>
+        <label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-exam-date">Exam Date &amp; Time</label>
+        <input id="modal-exam-date" type="datetime-local" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+      </div>
+      <div class="flex justify-end gap-3 mt-4">
+        <button id="cancel-exam-modal" type="button" class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-4 py-2 rounded-lg hover:bg-surface-container">Cancel</button>
+        <button type="submit" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-4 py-2 rounded-lg shadow-sm">Save Exam</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Add Exam Modal -->
+<div id="add-exam-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+  <div class="bg-surface-container-lowest rounded-xl shadow-lg p-stack-md max-w-md w-full border border-outline-variant">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-headline-md text-headline-md text-on-surface">Add Exam</h3>
+      <button id="close-add-exam-modal" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant hover:text-primary"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <form id="add-exam-form" class="flex flex-col gap-stack-sm">
+      <div>
+        <label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-add-exam-name">Exam Name</label>
+        <input id="modal-add-exam-name" type="text" placeholder="e.g. Chemistry Midterm" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+      </div>
+      <div>
+        <label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-add-exam-subject">Subject</label>
+        <input id="modal-add-exam-subject" type="text" placeholder="e.g. Chemistry" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+      </div>
+      <div>
+        <label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-add-exam-date">Exam Date &amp; Time</label>
+        <input id="modal-add-exam-date" type="datetime-local" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+      </div>
+      <div class="flex justify-end gap-3 mt-4">
+        <button id="cancel-add-exam-modal" type="button" class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-4 py-2 rounded-lg hover:bg-surface-container">Cancel</button>
+        <button type="submit" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-4 py-2 rounded-lg shadow-sm">Add Exam</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Add Timetable Entry Modal -->
+<div id="timetable-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+  <div class="bg-surface-container-lowest rounded-xl shadow-lg p-stack-md max-w-md w-full border border-outline-variant">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-headline-md text-headline-md text-on-surface">Add Class</h3>
+      <button id="close-timetable-modal" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant hover:text-primary"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <form id="timetable-form" class="flex flex-col gap-stack-sm">
+      <div>
+        <label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-timetable-time">Time</label>
+        <input id="modal-timetable-time" type="time" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+      </div>
+      <div>
+        <label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-timetable-name">Class Name</label>
+        <input id="modal-timetable-name" type="text" placeholder="e.g. Algorithms Lecture" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+      </div>
+      <div>
+        <label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-timetable-location">Location</label>
+        <input id="modal-timetable-location" type="text" placeholder="e.g. Room 304, CS Building" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+      </div>
+      <div>
+        <label class="font-label-md text-label-md text-on-surface block mb-2" for="modal-timetable-type">Class Type</label>
+        <select id="modal-timetable-type" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+          <option value="lecture">Lecture</option>
+          <option value="lab">Lab</option>
+          <option value="study">Study Group</option>
+          <option value="tutorial">Tutorial</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="flex justify-end gap-3 mt-4">
+        <button id="cancel-timetable-modal" type="button" class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-4 py-2 rounded-lg hover:bg-surface-container">Cancel</button>
+        <button type="submit" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-4 py-2 rounded-lg shadow-sm">Add Class</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/notes.js"></script>
+<script src="js/timetable.js"></script>
+<script src="js/exams.js"></script>
+<script src="js/navigation.js"></script>
+</body>
+</html>
