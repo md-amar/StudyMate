@@ -1,0 +1,26 @@
+/* StudyMate - custom styles (Tailwind handles the rest) */
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Slim scrollbar for the timetable list */
+.timetable-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.timetable-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.timetable-scroll::-webkit-scrollbar-thumb {
+  background: rgba(115, 118, 134, 0.35);
+  border-radius: 9999px;
+}
+.timetable-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(115, 118, 134, 0.35) transparent;
+}
+
+/* Smooth width animation for the countdown progress bar */
+#countdown-progress {
+  transition: width 0.5s ease;
+}
