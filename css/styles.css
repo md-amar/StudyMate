@@ -24,3 +24,54 @@
 #countdown-progress {
   transition: width 0.5s ease;
 }
+
+/* AI Planner Agent pulse indicator */
+@keyframes agent-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.6;
+  }
+}
+
+.agent-live-dot {
+  position: relative;
+}
+.agent-live-dot::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  background-color: currentColor;
+  opacity: 0.4;
+  animation: agent-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Planner timeline connector */
+.planner-timeline-line {
+  position: absolute;
+  left: 23px;
+  top: 36px;
+  bottom: -16px;
+  width: 2px;
+  background-color: #c3c6d7;
+}
+
+/* Custom scrollbars for planner logs and lists */
+.planner-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.planner-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.planner-scroll::-webkit-scrollbar-thumb {
+  background: rgba(115, 118, 134, 0.35);
+  border-radius: 9999px;
+}
+.planner-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(115, 118, 134, 0.35) transparent;
+}

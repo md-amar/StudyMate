@@ -177,13 +177,20 @@ function addExam(name, subject, datetime) {
   saveExamsData();
   updateUpcomingExam();
   renderExamsView();
+  if (typeof triggerAutonomousReplan === "function") {
+    triggerAutonomousReplan(`New assessment deadline scheduled: "${name.trim()}" (${subject})`);
+  }
 }
 
 function deleteExam(id) {
+  const removed = examsList.find(e => e.id === id);
   examsList = examsList.filter(e => e.id !== id);
   saveExamsData();
   updateUpcomingExam();
   renderExamsView();
+  if (typeof triggerAutonomousReplan === "function") {
+    triggerAutonomousReplan(`Assessment deadline removed: "${removed ? removed.name : id}"`);
+  }
 }
 
 function openAddExamModal() {

@@ -98,12 +98,19 @@ function addTimetableEntry(time, name, location, type) {
   timetableEntries.push({ id: makeId("entry"), time, name: name.trim(), location: location.trim(), type });
   saveTimetableData();
   renderTimetable();
+  if (typeof triggerAutonomousReplan === "function") {
+    triggerAutonomousReplan(`Timetable commitment added: "${name.trim()}" at ${time}`);
+  }
 }
 
 function deleteTimetableEntry(id) {
+  const removed = timetableEntries.find(e => e.id === id);
   timetableEntries = timetableEntries.filter(e => e.id !== id);
   saveTimetableData();
   renderTimetable();
+  if (typeof triggerAutonomousReplan === "function") {
+    triggerAutonomousReplan(`Timetable commitment removed: "${removed ? removed.name : id}"`);
+  }
 }
 
 function openTimetableModal() {
