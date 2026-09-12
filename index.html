@@ -23,7 +23,7 @@
     </div>
   </div>
   <div class="px-gutter mb-stack-md">
-    <button class="w-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-stack-sm rounded-lg transition-all duration-200 shadow-sm flex items-center justify-center gap-2">
+    <button id="sidebar-new-session-btn" class="w-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-stack-sm rounded-lg transition-all duration-200 shadow-sm flex items-center justify-center gap-2">
       <span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">add</span>
       New Study Session
     </button>
@@ -33,6 +33,13 @@
       <a id="home-nav" class="flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md border-l-4 border-primary bg-surface-container-low text-primary font-bold hover:bg-surface-container-high transition-colors duration-200" href="#">
         <span class="material-symbols-outlined" data-icon="home">home</span>
         Home
+      </a>
+    </li>
+    <li>
+      <a id="planner-nav" class="flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200" href="#planner">
+        <span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+        <span class="flex-1">AI Planner</span>
+        <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary/10 text-primary uppercase tracking-wider">Agent</span>
       </a>
     </li>
     <li>
@@ -157,6 +164,68 @@
           </div>
         </div>
 
+        <!-- Autonomous AI Learning Planner Card -->
+        <div class="col-span-12 bg-surface-container-lowest rounded-xl p-stack-md shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-primary/20 relative overflow-hidden mt-stack-md">
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary relative flex-shrink-0">
+                <span class="material-symbols-outlined">auto_awesome</span>
+                <span class="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-emerald-500 agent-live-dot"></span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h3 class="font-headline-md text-headline-md text-on-surface">Autonomous Learning Agent</h3>
+                  <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Active &amp; Optimizing
+                  </span>
+                </div>
+                <p id="dashboard-agent-summary" class="font-body-md text-body-md text-on-surface-variant text-sm mt-0.5">
+                  Solving timetable constraints, prioritizing high-impact learning gaps, and auto-replanning on changes.
+                </p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 self-end md:self-auto">
+              <button id="dashboard-replan-btn" type="button" class="px-3 py-2 rounded-lg border border-outline-variant/60 text-on-surface hover:bg-surface-container font-label-md text-label-md flex items-center gap-1.5 transition-colors">
+                <span class="material-symbols-outlined" style="font-size: 18px;">restart_alt</span>
+                Replan Now
+              </button>
+              <button id="dashboard-open-planner-btn" type="button" class="bg-primary hover:bg-primary-container text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md shadow-sm flex items-center gap-1.5 transition-colors">
+                <span>Open Planner</span>
+                <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic next session & gap focus strip -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4 pt-4 border-t border-outline-variant/20">
+            <div class="bg-surface-container-low rounded-lg p-3">
+              <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block mb-1">Next AI Study Session</span>
+              <div id="dash-next-session-title" class="font-label-md text-label-md font-semibold text-on-surface">Graph Algorithms &amp; BFS/DFS</div>
+              <div id="dash-next-session-time" class="font-body-md text-sm text-primary flex items-center gap-1 mt-0.5">
+                <span class="material-symbols-outlined" style="font-size: 16px;">schedule</span> 11:15 - 12:15 (60 min)
+              </div>
+            </div>
+
+            <div class="bg-surface-container-low rounded-lg p-3">
+              <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block mb-1">Top Learning Gap</span>
+              <div id="dash-top-gap-title" class="font-label-md text-label-md font-semibold text-error">Graph Algorithms &amp; BFS/DFS</div>
+              <div id="dash-top-gap-status" class="font-body-md text-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+                <span class="material-symbols-outlined text-error" style="font-size: 16px;">warning</span> 42% Mastery &bull; Critical Priority
+              </div>
+            </div>
+
+            <div class="bg-surface-container-low rounded-lg p-3">
+              <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block mb-1">Constraint Verification</span>
+              <div id="dash-constraint-badge" class="font-label-md text-label-md font-semibold text-emerald-700 flex items-center gap-1">
+                <span class="material-symbols-outlined text-emerald-600" style="font-size: 18px;">verified</span> 100% Valid (0 Clashes)
+              </div>
+              <div id="dash-constraint-detail" class="font-body-md text-xs text-on-surface-variant mt-0.5">
+                Timetable slots respected &bull; Daily load within budget
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Recent Notes Section -->
         <div class="col-span-12 mt-stack-md">
           <div class="flex justify-between items-center mb-stack-md">
@@ -246,6 +315,214 @@
         <span class="material-symbols-outlined text-on-surface-variant text-5xl">event_note</span>
         <h3 class="font-headline-md text-headline-md text-on-surface mt-3">No exams scheduled</h3>
         <p class="font-body-md text-body-md text-on-surface-variant mt-1">Add your first exam to start managing your assessments.</p>
+      </div>
+    </section>
+
+    <!-- Autonomous Learning Planner Workspace -->
+    <section id="planner-view" class="hidden" aria-labelledby="planner-heading">
+      <!-- Planner Header -->
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-stack-md mb-stack-lg">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest font-semibold">Autonomous AI Agent</span>
+            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300/40">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 agent-live-dot"></span>
+              Continuous Optimization Active
+            </span>
+          </div>
+          <h2 id="planner-heading" class="font-headline-lg text-headline-lg text-on-surface">Autonomous Learning Planner</h2>
+          <p class="font-body-lg text-body-lg text-on-surface-variant mt-1">
+            AI analyzes your mastery gaps, selects learning resources, schedules study blocks around timetable constraints, and dynamically replans.
+          </p>
+        </div>
+
+        <!-- Action Bar -->
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="planner-replan-btn" type="button" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-2 px-3.5 rounded-lg transition-all duration-200 shadow-sm flex items-center gap-2">
+            <span class="material-symbols-outlined" style="font-size: 18px;">auto_awesome</span>
+            <span>Replan Schedule</span>
+          </button>
+          <button id="planner-log-quiz-btn" type="button" class="bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md py-2 px-3.5 rounded-lg border border-outline-variant transition-colors flex items-center gap-2">
+            <span class="material-symbols-outlined" style="font-size: 18px;">quiz</span>
+            <span>Log Quiz / Score</span>
+          </button>
+          <button id="planner-simulate-conflict-btn" type="button" class="bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md py-2 px-3.5 rounded-lg border border-outline-variant transition-colors flex items-center gap-2" title="Simulate adding an urgent class to test automatic constraint replanning">
+            <span class="material-symbols-outlined" style="font-size: 18px;">shuffle</span>
+            <span>Simulate Schedule Shift</span>
+          </button>
+          <button id="planner-view-log-btn" type="button" class="bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md py-2 px-3.5 rounded-lg border border-outline-variant transition-colors flex items-center gap-2">
+            <span class="material-symbols-outlined" style="font-size: 18px;">psychology</span>
+            <span>Agent Audit Trail</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Planner Metric KPI Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter mb-stack-lg">
+        <!-- Metric 1: Overall Readiness -->
+        <div class="bg-surface-container-lowest rounded-xl p-stack-sm border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex items-center justify-between">
+          <div>
+            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block mb-1">Average Readiness</span>
+            <div id="planner-kpi-readiness" class="font-display-lg text-2xl lg:text-3xl font-bold text-primary">54%</div>
+            <span id="planner-kpi-readiness-delta" class="font-label-sm text-label-sm text-emerald-700 flex items-center gap-0.5 mt-0.5">
+              <span class="material-symbols-outlined" style="font-size: 14px;">trending_up</span> +6% this week
+            </span>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-2xl">analytics</span>
+          </div>
+        </div>
+
+        <!-- Metric 2: Priority Gaps -->
+        <div class="bg-surface-container-lowest rounded-xl p-stack-sm border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex items-center justify-between">
+          <div>
+            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block mb-1">Priority Gaps</span>
+            <div id="planner-kpi-gaps" class="font-display-lg text-2xl lg:text-3xl font-bold text-error">2 Critical</div>
+            <span id="planner-kpi-gaps-sub" class="font-label-sm text-label-sm text-on-surface-variant mt-0.5 block">3 high priority gaps</span>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-error-container/50 flex items-center justify-center text-error">
+            <span class="material-symbols-outlined text-2xl">priority_high</span>
+          </div>
+        </div>
+
+        <!-- Metric 3: Planned Study Time -->
+        <div class="bg-surface-container-lowest rounded-xl p-stack-sm border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex items-center justify-between">
+          <div>
+            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block mb-1">Study Budget</span>
+            <div id="planner-kpi-time" class="font-display-lg text-2xl lg:text-3xl font-bold text-secondary">2.5h / 3.5h</div>
+            <span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5 block">Optimal cognitive load</span>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-secondary-fixed/30 flex items-center justify-center text-secondary">
+            <span class="material-symbols-outlined text-2xl">timer</span>
+          </div>
+        </div>
+
+        <!-- Metric 4: Constraint Verification -->
+        <div class="bg-surface-container-lowest rounded-xl p-stack-sm border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex items-center justify-between">
+          <div>
+            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block mb-1">Constraint Solver</span>
+            <div id="planner-kpi-constraints" class="font-display-lg text-xl lg:text-2xl font-bold text-emerald-700 flex items-center gap-1">
+              <span class="material-symbols-outlined text-emerald-600" style="font-size: 22px;">verified</span> Passed
+            </div>
+            <span id="planner-kpi-constraints-sub" class="font-label-sm text-label-sm text-on-surface-variant mt-0.5 block">0 collisions with classes</span>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-800">
+            <span class="material-symbols-outlined text-2xl">rule</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Planner Grid: Left = Schedule & Timeline; Right = Gaps, Resources, & Constraint Audit -->
+      <div class="grid grid-cols-12 gap-gutter">
+        
+        <!-- Column Left: Autonomous Schedule Timeline (7 cols) -->
+        <div class="col-span-12 lg:col-span-7 flex flex-col gap-gutter">
+          <div class="bg-surface-container-lowest rounded-xl p-stack-md border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex flex-col">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-outline-variant/20">
+              <div>
+                <h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+                  <span>Today's Unified Schedule</span>
+                  <span class="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary font-medium">Timetable + AI Sessions</span>
+                </h3>
+                <p class="font-body-md text-sm text-on-surface-variant">
+                  Study sessions scheduled exclusively in verified free slots between your classes.
+                </p>
+              </div>
+              <div class="flex items-center gap-2 text-xs">
+                <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-secondary"></span> Class</span>
+                <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-primary"></span> AI Study Session</span>
+              </div>
+            </div>
+
+            <!-- Schedule Items Container -->
+            <div id="planner-schedule-list" class="flex flex-col gap-3 planner-scroll max-h-[620px] overflow-y-auto pr-1"></div>
+
+            <!-- Empty State -->
+            <div id="planner-schedule-empty" class="hidden py-12 text-center">
+              <span class="material-symbols-outlined text-outline-variant text-5xl mb-2">event_busy</span>
+              <p class="font-body-md text-on-surface-variant">No sessions currently scheduled.</p>
+              <button id="planner-empty-generate-btn" type="button" class="mt-3 bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md">
+                Generate Study Plan
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column Right: Learning Gaps, Resources & Verification (5 cols) -->
+        <div class="col-span-12 lg:col-span-5 flex flex-col gap-gutter">
+          
+          <!-- Panel 1: Priority Learning Gaps -->
+          <div class="bg-surface-container-lowest rounded-xl p-stack-md border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.03)]">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <h3 class="font-headline-md text-headline-md text-on-surface">Priority Learning Gaps</h3>
+                <p class="font-body-md text-xs text-on-surface-variant">Ranked by exam deadline proximity &amp; mastery deficit</p>
+              </div>
+              <button id="planner-refresh-gaps-btn" type="button" class="p-1.5 rounded-full text-on-surface-variant hover:bg-surface-container transition-colors" title="Re-evaluate Gaps">
+                <span class="material-symbols-outlined" style="font-size: 18px;">refresh</span>
+              </button>
+            </div>
+
+            <div id="planner-gaps-list" class="flex flex-col gap-3 planner-scroll max-h-[300px] overflow-y-auto pr-1"></div>
+          </div>
+
+          <!-- Panel 2: Recommended Curated Resources -->
+          <div class="bg-surface-container-lowest rounded-xl p-stack-md border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.03)]">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <h3 class="font-headline-md text-headline-md text-on-surface">Curated Learning Resources</h3>
+                <p class="font-body-md text-xs text-on-surface-variant">Tailored materials mapped directly to top gaps</p>
+              </div>
+            </div>
+
+            <div id="planner-resources-list" class="flex flex-col gap-2.5 planner-scroll max-h-[250px] overflow-y-auto pr-1"></div>
+          </div>
+
+          <!-- Panel 3: Constraint Satisfaction Engine Report -->
+          <div class="bg-surface-container-lowest rounded-xl p-stack-md border border-outline-variant/30 shadow-[0px_4px_20px_rgba(0,0,0,0.03)]">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-primary" style="font-size: 20px;">verified_user</span>
+                Constraint Verification
+              </h3>
+              <span id="planner-constraint-checksum" class="text-[11px] font-mono bg-surface-container px-2 py-0.5 rounded text-on-surface-variant">
+                CHK-VALID
+              </span>
+            </div>
+
+            <div class="flex flex-col gap-2 text-sm" id="planner-constraint-checklist">
+              <div class="flex items-center justify-between p-2 rounded bg-surface-container-low">
+                <span class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-emerald-600" style="font-size: 18px;">check_circle</span>
+                  <span>Timetable Collision Avoidance</span>
+                </span>
+                <span class="text-xs font-semibold text-emerald-700">0 Overlaps</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded bg-surface-container-low">
+                <span class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-emerald-600" style="font-size: 18px;">check_circle</span>
+                  <span>Daily Study Load Limit (&le; 3.5h)</span>
+                </span>
+                <span id="planner-check-load" class="text-xs font-semibold text-emerald-700">2.5h Planned</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded bg-surface-container-low">
+                <span class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-emerald-600" style="font-size: 18px;">check_circle</span>
+                  <span>Minimum 15m Break Buffers</span>
+                </span>
+                <span class="text-xs font-semibold text-emerald-700">Satisfied</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded bg-surface-container-low">
+                <span class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-emerald-600" style="font-size: 18px;">check_circle</span>
+                  <span>Critical Learning Objective Coverage</span>
+                </span>
+                <span class="text-xs font-semibold text-emerald-700">100% Covered</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
   </main>
@@ -343,10 +620,174 @@
   </div>
 </div>
 
+<!-- Focus Mode Study Session Modal -->
+<div id="session-focus-modal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+  <div class="bg-surface-container-lowest rounded-2xl shadow-2xl p-stack-md max-w-lg w-full border border-outline-variant">
+    <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center gap-2">
+        <span class="p-1.5 rounded-lg bg-primary/10 text-primary">
+          <span class="material-symbols-outlined" style="font-size: 20px;">timer</span>
+        </span>
+        <h3 class="font-headline-md text-headline-md text-on-surface">Focus Study Session</h3>
+      </div>
+      <button id="close-focus-modal" type="button" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant hover:text-primary">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <div class="bg-surface-container-low rounded-xl p-4 mb-4">
+      <div class="flex items-center justify-between mb-1">
+        <span id="focus-session-subject" class="text-xs font-semibold uppercase tracking-wider text-primary">Computer Science</span>
+        <span id="focus-session-exam" class="text-xs text-on-surface-variant">Target: Data Structures Final</span>
+      </div>
+      <h4 id="focus-session-topic" class="font-headline-md text-lg font-bold text-on-surface">Graph Algorithms &amp; BFS/DFS</h4>
+      <p id="focus-session-objective" class="text-sm text-on-surface-variant mt-1">
+        Objective: Trace breadth-first queue transitions and practice cycle detection in directed graphs.
+      </p>
+      <div id="focus-session-resource-container" class="mt-2 pt-2 border-t border-outline-variant/30 flex items-center gap-2 text-xs text-primary font-medium">
+        <span class="material-symbols-outlined" style="font-size: 16px;">menu_book</span>
+        <span id="focus-session-resource">Resource: Interactive VisuAlgo Graph Simulator (40 min)</span>
+      </div>
+    </div>
+
+    <!-- Countdown Timer Display -->
+    <div class="flex flex-col items-center justify-center py-4 bg-surface-container-lowest border border-outline-variant/30 rounded-xl mb-4">
+      <div id="focus-timer-display" class="font-display-lg text-5xl font-extrabold text-primary tabular-nums tracking-tight mb-2">
+        45:00
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="focus-timer-toggle" type="button" class="bg-primary hover:bg-primary-container text-on-primary font-label-md px-5 py-2 rounded-lg flex items-center gap-1.5 shadow-sm transition-all">
+          <span class="material-symbols-outlined" id="focus-timer-icon">play_arrow</span>
+          <span id="focus-timer-label">Start Focus</span>
+        </button>
+        <button id="focus-timer-reset" type="button" class="bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md px-3.5 py-2 rounded-lg border border-outline-variant transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined" style="font-size: 18px;">restart_alt</span> Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- Finish & Rate Comprehension Form -->
+    <form id="focus-complete-form" class="flex flex-col gap-3 pt-2 border-t border-outline-variant/30">
+      <label class="font-label-md text-label-md text-on-surface">
+        Rate your mastery after this session:
+      </label>
+      <div class="grid grid-cols-5 gap-2">
+        <label class="cursor-pointer">
+          <input type="radio" name="focus-rating" value="1" class="peer sr-only">
+          <div class="p-2 text-center rounded-lg border border-outline-variant/40 peer-checked:bg-error-container peer-checked:border-error peer-checked:text-error text-xs font-medium transition-all">
+            1 - Struggled
+          </div>
+        </label>
+        <label class="cursor-pointer">
+          <input type="radio" name="focus-rating" value="2" class="peer sr-only">
+          <div class="p-2 text-center rounded-lg border border-outline-variant/40 peer-checked:bg-amber-100 peer-checked:border-amber-500 peer-checked:text-amber-800 text-xs font-medium transition-all">
+            2 - Needs Work
+          </div>
+        </label>
+        <label class="cursor-pointer">
+          <input type="radio" name="focus-rating" value="3" checked class="peer sr-only">
+          <div class="p-2 text-center rounded-lg border border-outline-variant/40 peer-checked:bg-surface-container-high peer-checked:border-primary peer-checked:text-primary text-xs font-medium transition-all">
+            3 - Moderate
+          </div>
+        </label>
+        <label class="cursor-pointer">
+          <input type="radio" name="focus-rating" value="4" class="peer sr-only">
+          <div class="p-2 text-center rounded-lg border border-outline-variant/40 peer-checked:bg-primary-fixed peer-checked:border-primary peer-checked:text-primary text-xs font-medium transition-all">
+            4 - Strong
+          </div>
+        </label>
+        <label class="cursor-pointer">
+          <input type="radio" name="focus-rating" value="5" class="peer sr-only">
+          <div class="p-2 text-center rounded-lg border border-outline-variant/40 peer-checked:bg-emerald-100 peer-checked:border-emerald-600 peer-checked:text-emerald-800 text-xs font-medium transition-all">
+            5 - Mastered
+          </div>
+        </label>
+      </div>
+
+      <div class="flex justify-end gap-3 mt-2">
+        <button id="cancel-focus-modal" type="button" class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-4 py-2 rounded-lg hover:bg-surface-container">
+          Close
+        </button>
+        <button type="submit" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-4 py-2 rounded-lg shadow-sm flex items-center gap-1.5">
+          <span class="material-symbols-outlined" style="font-size: 18px;">task_alt</span>
+          Complete &amp; Update Mastery
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Agent Decision Audit Trail Modal -->
+<div id="agent-log-modal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+  <div class="bg-surface-container-lowest rounded-2xl shadow-2xl p-stack-md max-w-2xl w-full border border-outline-variant flex flex-col max-h-[85vh]">
+    <div class="flex items-center justify-between mb-2">
+      <div class="flex items-center gap-2">
+        <span class="p-1.5 rounded-lg bg-primary/10 text-primary">
+          <span class="material-symbols-outlined" style="font-size: 22px;">psychology</span>
+        </span>
+        <div>
+          <h3 class="font-headline-md text-headline-md text-on-surface">Agent Reasoning &amp; Audit Trail</h3>
+          <p class="font-body-md text-xs text-on-surface-variant">Transparent AI decisions, constraint evaluations, and replanning triggers</p>
+        </div>
+      </div>
+      <button id="close-agent-log-modal" type="button" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant hover:text-primary">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <!-- Log list container -->
+    <div id="agent-log-container" class="flex-1 overflow-y-auto planner-scroll pr-2 flex flex-col gap-2.5 my-3">
+      <!-- Injected by planner.js -->
+    </div>
+
+    <div class="flex items-center justify-between pt-3 border-t border-outline-variant/30">
+      <button id="clear-agent-log-btn" type="button" class="text-xs text-on-surface-variant hover:text-error transition-colors flex items-center gap-1">
+        <span class="material-symbols-outlined" style="font-size: 16px;">delete_sweep</span> Clear History
+      </button>
+      <button id="dismiss-agent-log-modal" type="button" class="bg-surface-container hover:bg-surface-container-high text-on-surface px-4 py-2 rounded-lg font-label-md text-label-md">
+        Done
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Log Quiz / Assessment Score Modal -->
+<div id="quiz-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+  <div class="bg-surface-container-lowest rounded-xl shadow-lg p-stack-md max-w-md w-full border border-outline-variant">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-headline-md text-headline-md text-on-surface">Log Quiz / Assessment Score</h3>
+      <button id="close-quiz-modal" type="button" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant hover:text-primary">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <form id="quiz-form" class="flex flex-col gap-stack-sm">
+      <div>
+        <label class="font-label-md text-label-md text-on-surface block mb-2" for="quiz-topic-select">Select Topic</label>
+        <select id="quiz-topic-select" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+          <!-- Populated dynamically -->
+        </select>
+      </div>
+      <div>
+        <label class="font-label-md text-label-md text-on-surface block mb-2" for="quiz-score-input">Quiz / Test Score (%)</label>
+        <input id="quiz-score-input" type="number" min="0" max="100" placeholder="e.g. 78" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+      </div>
+      <div>
+        <label class="font-label-md text-label-md text-on-surface block mb-2" for="quiz-notes-input">Notes / Reflection (Optional)</label>
+        <input id="quiz-notes-input" type="text" placeholder="e.g. Struggled with BFS tree traversal" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+      </div>
+      <div class="flex justify-end gap-3 mt-4">
+        <button id="cancel-quiz-modal" type="button" class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-4 py-2 rounded-lg hover:bg-surface-container">Cancel</button>
+        <button type="submit" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-4 py-2 rounded-lg shadow-sm">Save &amp; Re-evaluate</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script src="js/utils.js"></script>
 <script src="js/notes.js"></script>
 <script src="js/timetable.js"></script>
 <script src="js/exams.js"></script>
+<script src="js/planner.js"></script>
 <script src="js/navigation.js"></script>
 </body>
 </html>
