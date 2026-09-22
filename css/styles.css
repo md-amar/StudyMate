@@ -74,4 +74,177 @@
 .planner-scroll {
   scrollbar-width: thin;
   scrollbar-color: rgba(115, 118, 134, 0.35) transparent;
+}
+
+/* ============================================================
+ * Theme system (driven by the Settings page — js/theme-bootstrap.js)
+ * Tokens are RGB channel triples consumed by js/tailwind.config.js
+ * via rgb(var(--sm-*) / <alpha-value>), so updating a variable on
+ * :root instantly re-themes every Tailwind utility in the app.
+ * ============================================================ */
+
+:root {
+  --sm-background: 248 249 255;              /* #f8f9ff */
+  --sm-on-background: 11 28 48;              /* #0b1c30 */
+  --sm-surface: 248 249 255;                 /* #f8f9ff */
+  --sm-on-surface: 11 28 48;                 /* #0b1c30 */
+  --sm-surface-variant: 211 228 254;         /* #d3e4fe */
+  --sm-on-surface-variant: 67 70 85;         /* #434655 */
+  --sm-surface-dim: 203 219 245;             /* #cbdbf5 */
+  --sm-surface-bright: 248 249 255;          /* #f8f9ff */
+  --sm-surface-container-lowest: 255 255 255;/* #ffffff */
+  --sm-surface-container-low: 239 244 255;   /* #eff4ff */
+  --sm-surface-container: 229 238 255;       /* #e5eeff */
+  --sm-surface-container-high: 220 233 255;  /* #dce9ff */
+  --sm-surface-container-highest: 211 228 254; /* #d3e4fe */
+  --sm-surface-tint: 0 83 219;               /* #0053db */
+  --sm-outline: 115 118 134;                 /* #737686 */
+  --sm-outline-variant: 195 198 215;         /* #c3c6d7 */
+  --sm-primary: 0 74 198;                    /* #004ac6 (accent-driven) */
+  --sm-on-primary: 255 255 255;              /* #ffffff */
+  --sm-primary-container: 37 99 235;         /* #2563eb (accent-driven) */
+  --sm-on-primary-container: 238 239 255;    /* #eeefff */
+  --sm-primary-fixed: 219 225 255;           /* #dbe1ff */
+  --sm-primary-fixed-dim: 180 197 255;       /* #b4c5ff */
+  --sm-on-primary-fixed: 0 23 75;            /* #00174b */
+  --sm-on-primary-fixed-variant: 0 62 168;   /* #003ea8 */
+  --sm-secondary: 0 102 134;                 /* #006686 */
+  --sm-on-secondary: 255 255 255;            /* #ffffff */
+  --sm-secondary-container: 126 212 253;     /* #7ed4fd */
+  --sm-on-secondary-container: 0 91 120;     /* #005b78 */
+  --sm-secondary-fixed: 192 232 255;         /* #c0e8ff */
+  --sm-secondary-fixed-dim: 123 209 250;     /* #7bd1fa */
+  --sm-on-secondary-fixed: 0 30 43;          /* #001e2b */
+  --sm-on-secondary-fixed-variant: 0 77 102; /* #004d66 */
+  --sm-tertiary: 152 38 105;                 /* #982669 */
+  --sm-on-tertiary: 255 255 255;             /* #ffffff */
+  --sm-tertiary-container: 183 64 130;       /* #b74082 */
+  --sm-on-tertiary-container: 255 236 241;   /* #ffecf1 */
+  --sm-tertiary-fixed: 255 216 231;          /* #ffd8e7 */
+  --sm-tertiary-fixed-dim: 255 175 211;      /* #ffafd3 */
+  --sm-on-tertiary-fixed: 61 0 38;           /* #3d0026 */
+  --sm-on-tertiary-fixed-variant: 133 20 90; /* #85145a */
+  --sm-error: 186 26 26;                     /* #ba1a1a */
+  --sm-on-error: 255 255 255;                /* #ffffff */
+  --sm-error-container: 255 218 214;         /* #ffdad6 */
+  --sm-on-error-container: 147 0 10;         /* #93000a */
+  --sm-inverse-surface: 33 49 69;            /* #213145 (kept dark in both modes) */
+  --sm-inverse-on-surface: 234 241 255;      /* #eaf1ff */
+  --sm-inverse-primary: 180 197 255;         /* #b4c5ff */
+}
+
+/* Dark palette — applied when <html> has the "dark" class. */
+html.dark {
+  --sm-background: 11 28 48;                 /* #0b1c30 */
+  --sm-on-background: 226 233 246;           /* #e2e9f6 */
+  --sm-surface: 14 31 51;                    /* #0e1f33 */
+  --sm-on-surface: 226 233 246;              /* #e2e9f6 */
+  --sm-surface-variant: 67 70 85;            /* #434655 */
+  --sm-on-surface-variant: 195 199 214;      /* #c3c7d6 */
+  --sm-surface-dim: 11 28 48;                /* #0b1c30 */
+  --sm-surface-bright: 51 75 104;            /* #334b68 */
+  --sm-surface-container-lowest: 8 23 40;    /* #081728 */
+  --sm-surface-container-low: 18 36 56;      /* #122438 */
+  --sm-surface-container: 22 42 63;          /* #162a3f */
+  --sm-surface-container-high: 28 49 71;     /* #1c3147 */
+  --sm-surface-container-highest: 39 64 92;  /* #27405c */
+  --sm-surface-tint: 180 197 255;            /* #b4c5ff (accent-driven) */
+  --sm-outline: 141 145 158;                 /* #8d919e */
+  --sm-outline-variant: 67 71 89;            /* #434759 */
+  --sm-primary: 180 197 255;                 /* #b4c5ff (accent-driven) */
+  --sm-on-primary: 26 47 116;                /* #1a2f74 (accent-driven) */
+  --sm-primary-container: 37 99 235;         /* #2563eb (accent-driven) */
+  --sm-on-primary-container: 219 225 255;    /* #dbe1ff (accent-driven) */
+  --sm-primary-fixed: 219 225 255;           /* #dbe1ff */
+  --sm-primary-fixed-dim: 180 197 255;       /* #b4c5ff */
+  --sm-on-primary-fixed: 0 23 75;            /* #00174b */
+  --sm-on-primary-fixed-variant: 180 197 255;/* #b4c5ff */
+  --sm-secondary: 123 209 250;               /* #7bd1fa */
+  --sm-on-secondary: 0 53 73;                /* #003549 */
+  --sm-secondary-container: 0 77 102;        /* #004d66 */
+  --sm-on-secondary-container: 192 232 255;  /* #c0e8ff */
+  --sm-secondary-fixed: 192 232 255;         /* #c0e8ff */
+  --sm-secondary-fixed-dim: 123 209 250;     /* #7bd1fa */
+  --sm-on-secondary-fixed: 0 30 43;          /* #001e2b */
+  --sm-on-secondary-fixed-variant: 123 209 250; /* #7bd1fa */
+  --sm-tertiary: 255 175 211;                /* #ffafd3 */
+  --sm-on-tertiary: 91 0 56;                 /* #5b0038 */
+  --sm-tertiary-container: 133 20 90;        /* #85145a */
+  --sm-on-tertiary-container: 255 216 231;   /* #ffd8e7 */
+  --sm-tertiary-fixed: 255 216 231;          /* #ffd8e7 */
+  --sm-tertiary-fixed-dim: 255 175 211;      /* #ffafd3 */
+  --sm-on-tertiary-fixed: 61 0 38;           /* #3d0026 */
+  --sm-on-tertiary-fixed-variant: 255 175 211; /* #ffafd3 */
+  --sm-error: 255 180 171;                   /* #ffb4ab */
+  --sm-on-error: 105 0 5;                    /* #690005 */
+  --sm-error-container: 147 0 10;            /* #93000a */
+  --sm-on-error-container: 255 218 214;      /* #ffdad6 */
+  --sm-inverse-surface: 33 49 69;            /* #213145 (kept dark in both modes) */
+  --sm-inverse-on-surface: 234 241 255;      /* #eaf1ff */
+  --sm-inverse-primary: 0 74 198;            /* #004ac6 */
+}
+
+/* High Contrast — bumps text/border token contrast for the active palette.
+ * (Order matters: these two blocks come after html.dark so the combined
+ * selector below wins when both classes are present.) */
+html.high-contrast {
+  --sm-outline: 35 38 52;                    /* #232634 */
+  --sm-outline-variant: 67 70 85;            /* #434655 */
+  --sm-on-surface-variant: 35 38 52;         /* #232634 */
+}
+
+html.dark.high-contrast {
+  --sm-outline: 195 199 214;                 /* #c3c7d6 */
+  --sm-outline-variant: 158 163 179;         /* #9ea3b3 */
+  --sm-on-surface-variant: 232 236 244;      /* #e8ecf4 */
+  --sm-on-surface: 255 255 255;              /* #ffffff */
+  --sm-on-background: 255 255 255;           /* #ffffff */
+}
+
+/* Reduced Motion — neutralises animations/transitions app-wide. */
+html.reduced-motion *,
+html.reduced-motion *::before,
+html.reduced-motion *::after {
+  animation-duration: 0.001s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001s !important;
+  scroll-behavior: auto !important;
+}
+
+/* Compact Sidebar — icon-only navigation; the main canvas slides over. */
+html.compact-sidebar body > nav {
+  width: 76px;
+  transition: width 200ms ease;
+}
+html.compact-sidebar body > nav > div:first-child > div {
+  display: none;
+}
+html.compact-sidebar body > nav > div:first-child {
+  justify-content: center;
+}
+html.compact-sidebar body > nav a,
+html.compact-sidebar body > nav #sidebar-new-session-btn {
+  font-size: 0;
+  justify-content: center;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+html.compact-sidebar body > nav a .material-symbols-outlined,
+html.compact-sidebar body > nav #sidebar-new-session-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+html.compact-sidebar body > div.ml-\[300px\] {
+  margin-left: 76px;
+  transition: margin-left 200ms ease;
+}
+
+/* Exam Countdown Banner toggle — hides the dashboard countdown card when off. */
+html.hide-countdown-banner #dashboard-view .grid-cols-12 > div:first-child {
+  display: none;
+}
+
+/* Invalid custom-hex feedback ring on the Settings page. */
+#hexCodeInput.hex-invalid {
+  border-color: rgb(var(--sm-error));
+  box-shadow: 0 0 0 2px rgb(var(--sm-error) / 0.35);
 }

@@ -9,7 +9,8 @@ const views = {
   notes: document.getElementById("notes-view"),
   timetable: document.getElementById("timetable-view"),
   exams: document.getElementById("exams-view"),
-  planner: document.getElementById("planner-view")
+  planner: document.getElementById("planner-view"),
+  settings: document.getElementById("settings-view")
 };
 
 const navLinks = {
@@ -17,7 +18,8 @@ const navLinks = {
   notes: document.getElementById("notes-nav"),
   timetable: document.getElementById("timetable-nav"),
   exams: document.getElementById("exams-nav"),
-  planner: document.getElementById("planner-nav")
+  planner: document.getElementById("planner-nav"),
+  settings: document.getElementById("settings-nav")
 };
 
 const ACTIVE_CLASSES =
@@ -45,6 +47,7 @@ const showNotes = () => showView("notes");
 const showTimetable = () => showView("timetable");
 const showExams = () => showView("exams");
 const showPlanner = () => showView("planner");
+const showSettings = () => showView("settings");
 
 /* ----- events ----- */
 
@@ -54,6 +57,9 @@ navLinks.timetable.addEventListener("click", e => { e.preventDefault(); showTime
 navLinks.exams.addEventListener("click", e => { e.preventDefault(); showExams(); });
 if (navLinks.planner) {
   navLinks.planner.addEventListener("click", e => { e.preventDefault(); showPlanner(); });
+}
+if (navLinks.settings) {
+  navLinks.settings.addEventListener("click", e => { e.preventDefault(); showSettings(); });
 }
 document.getElementById("view-all-notes").addEventListener("click", e => { e.preventDefault(); showNotes(); });
 
