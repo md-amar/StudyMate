@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <link href="css/styles.css" rel="stylesheet">
+<script src="js/theme-bootstrap.js"></script>
 <base target="_blank">
 </head>
 <body class="bg-background text-on-background min-h-screen flex font-body-md text-body-md overflow-x-hidden">
@@ -64,7 +65,7 @@
   <div class="mt-auto px-unit">
     <ul class="flex flex-col gap-unit">
       <li>
-        <a class="flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200" href="#">
+        <a id="settings-nav" class="flex items-center gap-3 px-3 py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200" href="#settings">
           <span class="material-symbols-outlined" data-icon="settings">settings</span>
           Settings
         </a>
@@ -83,7 +84,7 @@
 <div class="flex-1 ml-[300px] flex flex-col min-h-screen">
 
   <!-- TopAppBar -->
-  <header class="flex justify-between items-center w-full px-margin-desktop py-stack-md bg-surface dark:bg-on-background z-40 sticky top-0">
+  <header class="flex justify-between items-center w-full px-margin-desktop py-stack-md bg-surface z-40 sticky top-0">
     <div class="flex items-center gap-stack-sm w-full max-w-md bg-surface-container-lowest border border-outline-variant rounded-full px-4 py-2 focus-within:ring-2 focus-within:ring-secondary/50 focus-within:border-transparent transition-all">
       <span class="material-symbols-outlined text-outline">search</span>
       <input id="global-search" class="bg-transparent border-none focus:ring-0 outline-none w-full font-body-md text-body-md text-on-surface placeholder-on-surface-variant" placeholder="Search notes, schedules..." type="text">
@@ -525,6 +526,429 @@
         </div>
       </div>
     </section>
+
+    <!-- Settings Workspace (prototype UI — wired by js/settings.js via js/theme-bootstrap.js) -->
+    <section id="settings-view" class="hidden" aria-labelledby="settings-heading">
+      <!-- Top Breadcrumb & Page Title -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="font-label-sm text-label-sm text-outline">Preferences</span>
+            <span class="font-label-sm text-label-sm text-outline">/</span>
+            <span class="font-label-sm text-label-sm text-primary font-semibold">General System</span>
+          </div>
+          <h2 id="settings-heading" class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Settings</h2>
+          <p class="font-body-md text-body-md text-on-surface-variant mt-1">
+            Manage your visual appearance, study cadence, and application ergonomics.
+          </p>
+        </div>
+        <!-- Quick Status Pill & Sync Metadata -->
+        <div class="flex items-center gap-3 bg-surface-container-lowest px-4 py-2.5 rounded-lg shadow-sm">
+          <span class="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
+          <div class="flex flex-col">
+            <span class="font-label-sm text-label-sm text-on-surface font-medium">Cloud Workspace Synced</span>
+            <span class="font-label-sm text-label-sm text-outline text-[11px] leading-tight">Last sync: 2m ago &bull; Build v2.4.0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Primary Bento Grid Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-stack-md">
+        <!-- Column Left: Appearance & Palette Customizer (7 cols) -->
+        <div class="lg:col-span-7 flex flex-col gap-stack-md">
+          <!-- Section: Visual Theme Mode Selection -->
+          <div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm relative overflow-hidden">
+            <div class="flex items-center justify-between mb-5">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-md bg-surface-container flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-[20px]">palette</span>
+                </div>
+                <div>
+                  <h3 class="font-headline-md text-[18px] leading-6 text-on-surface font-semibold">Theme Mode</h3>
+                  <p class="font-label-sm text-label-sm text-on-surface-variant">Choose your visual environment for maximum focus</p>
+                </div>
+              </div>
+              <span class="font-label-sm text-label-sm bg-surface-container px-2.5 py-1 rounded-full text-on-surface-variant font-medium">Auto-synced</span>
+            </div>
+            <!-- 3 Interactive Cards (radio group: Light / Dark / System Auto) -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="themeSelectorGroup">
+              <!-- Light Mode -->
+              <label class="theme-card block cursor-pointer relative p-3 rounded-lg bg-surface-bright shadow-sm hover:shadow-md transition-all group has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary/50" data-theme="light">
+                <input type="radio" name="theme-mode" value="light" class="sr-only" checked>
+                <div class="absolute top-2.5 right-2.5 w-5 h-5 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-xs check-badge">
+                  <span class="material-symbols-outlined text-[14px]">check</span>
+                </div>
+                <!-- Mock preview -->
+                <div class="h-24 w-full rounded-md bg-[#f8f9ff] p-2.5 flex flex-col justify-between mb-3 shadow-inner">
+                  <div class="flex items-center justify-between">
+                    <div class="w-10 h-2 bg-primary/80 rounded-full"></div>
+                    <div class="w-3 h-3 rounded-full bg-surface-container-highest"></div>
+                  </div>
+                  <div class="space-y-1.5">
+                    <div class="w-3/4 h-2 bg-slate-300 rounded-full"></div>
+                    <div class="w-1/2 h-2 bg-slate-200 rounded-full"></div>
+                  </div>
+                  <div class="flex gap-1.5">
+                    <div class="h-4 w-7 bg-primary rounded-xs"></div>
+                    <div class="h-4 w-7 bg-surface-container rounded-xs"></div>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="font-label-md text-label-md text-on-surface font-medium">Light Mode</p>
+                    <p class="font-label-sm text-label-sm text-outline text-[11px]">Crisp paper layout</p>
+                  </div>
+                  <span class="material-symbols-outlined text-[18px] text-on-surface-variant">light_mode</span>
+                </div>
+              </label>
+              <!-- Dark Mode -->
+              <label class="theme-card block cursor-pointer relative p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-all group has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary/50" data-theme="dark">
+                <input type="radio" name="theme-mode" value="dark" class="sr-only">
+                <div class="hidden absolute top-2.5 right-2.5 w-5 h-5 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-xs check-badge">
+                  <span class="material-symbols-outlined text-[14px]">check</span>
+                </div>
+                <!-- Mock preview -->
+                <div class="h-24 w-full rounded-md bg-[#0b1c30] p-2.5 flex flex-col justify-between mb-3 shadow-inner">
+                  <div class="flex items-center justify-between">
+                    <div class="w-10 h-2 bg-primary-container rounded-full"></div>
+                    <div class="w-3 h-3 rounded-full bg-[#213145]"></div>
+                  </div>
+                  <div class="space-y-1.5">
+                    <div class="w-3/4 h-2 bg-[#213145] rounded-full"></div>
+                    <div class="w-1/2 h-2 bg-[#1b2738] rounded-full"></div>
+                  </div>
+                  <div class="flex gap-1.5">
+                    <div class="h-4 w-7 bg-primary-container rounded-xs"></div>
+                    <div class="h-4 w-7 bg-[#213145] rounded-xs"></div>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="font-label-md text-label-md text-on-surface font-medium">Dark Mode</p>
+                    <p class="font-label-sm text-label-sm text-outline text-[11px]">Deep OLED contrast</p>
+                  </div>
+                  <span class="material-symbols-outlined text-[18px] text-on-surface-variant">dark_mode</span>
+                </div>
+              </label>
+              <!-- System Default -->
+              <label class="theme-card block cursor-pointer relative p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-all group has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary/50" data-theme="system">
+                <input type="radio" name="theme-mode" value="system" class="sr-only">
+                <div class="hidden absolute top-2.5 right-2.5 w-5 h-5 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-xs check-badge">
+                  <span class="material-symbols-outlined text-[14px]">check</span>
+                </div>
+                <!-- Mock preview split -->
+                <div class="h-24 w-full rounded-md overflow-hidden flex mb-3 shadow-inner">
+                  <div class="w-1/2 bg-[#f8f9ff] p-2 flex flex-col justify-between">
+                    <div class="w-6 h-2 bg-primary/70 rounded-full"></div>
+                    <div class="w-full h-2 bg-slate-300 rounded-full"></div>
+                    <div class="h-4 w-6 bg-primary rounded-xs"></div>
+                  </div>
+                  <div class="w-1/2 bg-[#0b1c30] p-2 flex flex-col justify-between">
+                    <div class="w-6 h-2 bg-primary-container rounded-full ml-auto"></div>
+                    <div class="w-full h-2 bg-[#213145] rounded-full"></div>
+                    <div class="h-4 w-6 bg-primary-container rounded-xs ml-auto"></div>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="font-label-md text-label-md text-on-surface font-medium">System Auto</p>
+                    <p class="font-label-sm text-label-sm text-outline text-[11px]">OS circadian cycle</p>
+                  </div>
+                  <span class="material-symbols-outlined text-[18px] text-on-surface-variant">desktop_windows</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Section: Color System & Custom Hex Swatch -->
+          <div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-md bg-surface-container flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-[20px]">brush</span>
+                </div>
+                <div>
+                  <h3 class="font-headline-md text-[18px] leading-6 text-on-surface font-semibold">Accent &amp; Focus Hue</h3>
+                  <p class="font-label-sm text-label-sm text-on-surface-variant">Shapes primary buttons, active tabs, and priority tags</p>
+                </div>
+              </div>
+              <!-- Live Preview Pill -->
+              <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-low self-start sm:self-auto">
+                <div class="w-2.5 h-2.5 rounded-full bg-primary" id="liveAccentDot"></div>
+                <span class="font-label-sm text-label-sm font-semibold text-primary" id="liveAccentText">Academic Blue</span>
+              </div>
+            </div>
+            <!-- Presets Row -->
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-5" id="colorPresetContainer">
+              <!-- Preset 1: Academic Blue -->
+              <button class="color-swatch-btn flex flex-col items-center gap-2 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all" data-color="#2563eb" data-name="Academic Blue" type="button">
+                <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-sm">
+                  <span class="material-symbols-outlined text-[16px] swatch-check">check</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-on-surface font-medium">Blue</span>
+                <span class="font-label-sm text-label-sm text-outline text-[10px]">#2563EB</span>
+              </button>
+              <!-- Preset 2: Focus Violet -->
+              <button class="color-swatch-btn flex flex-col items-center gap-2 p-3 rounded-lg bg-surface-bright hover:bg-surface-container transition-all" data-color="#7c3aed" data-name="Focus Violet" type="button">
+                <div class="w-8 h-8 rounded-full bg-[#7c3aed] flex items-center justify-center text-white shadow-sm">
+                  <span class="material-symbols-outlined text-[16px] swatch-check hidden">check</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-on-surface font-medium">Violet</span>
+                <span class="font-label-sm text-label-sm text-outline text-[10px]">#7C3AED</span>
+              </button>
+              <!-- Preset 3: Sage Green -->
+              <button class="color-swatch-btn flex flex-col items-center gap-2 p-3 rounded-lg bg-surface-bright hover:bg-surface-container transition-all" data-color="#059669" data-name="Sage Focus" type="button">
+                <div class="w-8 h-8 rounded-full bg-[#059669] flex items-center justify-center text-white shadow-sm">
+                  <span class="material-symbols-outlined text-[16px] swatch-check hidden">check</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-on-surface font-medium">Sage</span>
+                <span class="font-label-sm text-label-sm text-outline text-[10px]">#059669</span>
+              </button>
+              <!-- Preset 4: Amber Focus -->
+              <button class="color-swatch-btn flex flex-col items-center gap-2 p-3 rounded-lg bg-surface-bright hover:bg-surface-container transition-all" data-color="#d97706" data-name="Amber Focus" type="button">
+                <div class="w-8 h-8 rounded-full bg-[#d97706] flex items-center justify-center text-white shadow-sm">
+                  <span class="material-symbols-outlined text-[16px] swatch-check hidden">check</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-on-surface font-medium">Amber</span>
+                <span class="font-label-sm text-label-sm text-outline text-[10px]">#D97706</span>
+              </button>
+              <!-- Preset 5: Rose Focus -->
+              <button class="color-swatch-btn flex flex-col items-center gap-2 p-3 rounded-lg bg-surface-bright hover:bg-surface-container transition-all" data-color="#e11d48" data-name="Rose Focus" type="button">
+                <div class="w-8 h-8 rounded-full bg-[#e11d48] flex items-center justify-center text-white shadow-sm">
+                  <span class="material-symbols-outlined text-[16px] swatch-check hidden">check</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-on-surface font-medium">Rose</span>
+                <span class="font-label-sm text-label-sm text-outline text-[10px]">#E11D48</span>
+              </button>
+            </div>
+            <!-- Custom Hex Input Row -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-3.5 rounded-lg bg-surface-container-low">
+              <div class="flex items-center gap-3">
+                <div class="relative flex items-center justify-center w-8 h-8 rounded-full bg-surface-container-highest cursor-pointer overflow-hidden shadow-xs">
+                  <input class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" id="nativeColorPicker" type="color" value="#2563eb">
+                  <div class="w-6 h-6 rounded-full bg-primary pointer-events-none transition-colors" id="customColorBubble"></div>
+                </div>
+                <div>
+                  <p class="font-label-md text-label-md text-on-surface font-medium">Custom Palette Hex</p>
+                  <p class="font-label-sm text-label-sm text-on-surface-variant">Input any hex representation for custom institutional themes</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="font-label-md text-label-md text-outline font-mono">HEX</span>
+                <input class="w-28 px-3 py-1.5 font-label-md text-label-md font-mono text-on-surface bg-surface-container-lowest rounded-md shadow-xs outline-none focus:ring-2 focus:ring-primary/40 uppercase" id="hexCodeInput" maxlength="7" type="text" value="#2563EB">
+                <button class="px-3.5 py-1.5 bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-md text-label-md rounded-md transition-colors font-medium" id="applyHexBtn" type="button">
+                  Apply
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: Visual Preview Playground / Mini Card Display -->
+          <div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">preview</span>
+                <h3 class="font-label-md text-label-md font-semibold text-on-surface uppercase tracking-wider">Live Typography &amp; Card Preview</h3>
+              </div>
+              <span class="font-label-sm text-label-sm text-outline">Reflects current selections</span>
+            </div>
+            <div class="p-4 rounded-lg bg-surface-bright flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div class="flex items-center gap-3.5 min-w-0">
+                <div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
+                  <span class="material-symbols-outlined text-[26px]">school</span>
+                </div>
+                <div class="min-w-0">
+                  <span class="font-label-sm text-label-sm text-secondary font-semibold uppercase tracking-wider block">Bioengineering 302</span>
+                  <p class="font-headline-md text-[17px] leading-5 text-on-surface font-semibold truncate">Cellular Dynamics Exam Review</p>
+                  <p class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Hall B &bull; Tomorrow at 09:30 AM</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 self-end md:self-auto flex-shrink-0">
+                <button class="px-3.5 py-2 rounded-md bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-medium transition-colors" type="button">
+                  Reschedule
+                </button>
+                <button class="px-4 py-2 rounded-md bg-primary text-on-primary font-label-sm text-label-sm font-semibold shadow-xs hover:bg-primary-container transition-colors" type="button">
+                  Start Session
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column Right: Toggles & Operational Preferences (5 cols) -->
+        <div class="lg:col-span-5 flex flex-col gap-stack-md">
+          <!-- Interface Ergonomics Switches -->
+          <div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm">
+            <div class="flex items-center gap-2.5 mb-5">
+              <div class="w-8 h-8 rounded-md bg-surface-container flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-[20px]">tune</span>
+              </div>
+              <div>
+                <h3 class="font-headline-md text-[18px] leading-6 text-on-surface font-semibold">Interface &amp; Interaction</h3>
+                <p class="font-label-sm text-label-sm text-on-surface-variant">Calibrate animations and layout density</p>
+              </div>
+            </div>
+            <div class="flex flex-col divide-y divide-transparent space-y-4">
+              <!-- Toggle 1: Reduced Motion -->
+              <div class="flex items-start justify-between gap-4 pt-1">
+                <div class="flex flex-col pr-2">
+                  <span class="font-label-md text-label-md text-on-surface font-medium">Reduced Motion</span>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">
+                    Minimize UI spring physics and transitions during intense study blocks.
+                  </span>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer flex-shrink-0 mt-0.5">
+                  <input class="sr-only peer toggle-input" data-setting="reduced-motion" type="checkbox">
+                  <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <!-- Toggle 2: Compact Sidebar -->
+              <div class="flex items-start justify-between gap-4 pt-4">
+                <div class="flex flex-col pr-2">
+                  <span class="font-label-md text-label-md text-on-surface font-medium">Compact Sidebar</span>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">
+                    Collapse global navigation into icon-only mode to expand editor viewport width.
+                  </span>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer flex-shrink-0 mt-0.5">
+                  <input class="sr-only peer toggle-input" data-setting="compact-sidebar" type="checkbox">
+                  <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <!-- Toggle 3: High Contrast Mode -->
+              <div class="flex items-start justify-between gap-4 pt-4">
+                <div class="flex flex-col pr-2">
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-label-md text-label-md text-on-surface font-medium">High Contrast Mode</span>
+                    <span class="bg-secondary-fixed text-on-secondary-fixed text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">A11Y</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">
+                    Elevate card outlines and typography values for variable ambient sunlight.
+                  </span>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer flex-shrink-0 mt-0.5">
+                  <input class="sr-only peer toggle-input" data-setting="high-contrast" type="checkbox">
+                  <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <!-- Toggle 4: Sunset Dark Mode -->
+              <div class="flex items-start justify-between gap-4 pt-4">
+                <div class="flex flex-col pr-2">
+                  <span class="font-label-md text-label-md text-on-surface font-medium">Automatic Sunset Shift</span>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">
+                    Switch theme automatically at 18:45 based on local geolocation daylight.
+                  </span>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer flex-shrink-0 mt-0.5">
+                  <input class="sr-only peer toggle-input" data-setting="sunset-shift" type="checkbox">
+                  <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Study & Notification Preferences Switches -->
+          <div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm">
+            <div class="flex items-center gap-2.5 mb-5">
+              <div class="w-8 h-8 rounded-md bg-surface-container flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-[20px]">notifications_active</span>
+              </div>
+              <div>
+                <h3 class="font-headline-md text-[18px] leading-6 text-on-surface font-semibold">Study &amp; Notifications</h3>
+                <p class="font-label-sm text-label-sm text-on-surface-variant">Alert thresholds and exam countdown triggers</p>
+              </div>
+            </div>
+            <div class="flex flex-col space-y-4">
+              <!-- Toggle 5: Exam Countdown Banner -->
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex flex-col pr-2">
+                  <span class="font-label-md text-label-md text-on-surface font-medium">Exam Countdown Banner</span>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">
+                    Display sticky upcoming exam tickers in dashboard header within 14 days.
+                  </span>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer flex-shrink-0 mt-0.5">
+                  <input class="sr-only peer toggle-input" data-setting="countdown-banner" type="checkbox">
+                  <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <!-- Toggle 6: Pomodoro Sound -->
+              <div class="flex items-start justify-between gap-4 pt-3">
+                <div class="flex flex-col pr-2">
+                  <span class="font-label-md text-label-md text-on-surface font-medium">Study Timer Chimes</span>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">
+                    Acoustic bowl chime when entering Pomodoro break and focus intervals.
+                  </span>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer flex-shrink-0 mt-0.5">
+                  <input class="sr-only peer toggle-input" data-setting="timer-sound" type="checkbox">
+                  <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+              <!-- Toggle 7: Daily Morning Briefing -->
+              <div class="flex items-start justify-between gap-4 pt-3">
+                <div class="flex flex-col pr-2">
+                  <span class="font-label-md text-label-md text-on-surface font-medium">Daily Morning Briefing</span>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">
+                    Receive schedule and task rundown push alerts daily at 08:00 AM.
+                  </span>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer flex-shrink-0 mt-0.5">
+                  <input class="sr-only peer toggle-input" data-setting="morning-briefing" type="checkbox">
+                  <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Session Productivity Stats card -->
+          <div class="bg-surface-container-low p-5 rounded-lg flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center">
+                <span class="material-symbols-outlined text-[22px]">hourglass_top</span>
+              </div>
+              <div>
+                <p class="font-label-md text-label-md text-on-surface font-semibold">Weekly Focus Budget</p>
+                <p class="font-label-sm text-label-sm text-on-surface-variant">28.5 of 35.0 target hours logged</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="font-headline-md text-[20px] text-secondary font-bold">81%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Floating Action Bar / Persistence Footer -->
+      <div class="sticky bottom-6 mt-8 z-30">
+        <div class="bg-surface-container-lowest/95 backdrop-blur-md px-6 py-4 rounded-lg shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+              <span class="material-symbols-outlined text-[18px]">verified</span>
+            </div>
+            <div>
+              <p class="font-label-md text-label-md font-medium text-on-surface">Preferences Stored Locally</p>
+              <p class="font-label-sm text-label-sm text-outline">Changes apply instantly and persist on this device after reload</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+            <button class="px-5 py-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-medium transition-all" id="resetBtn" type="button">
+              Reset to Defaults
+            </button>
+            <button class="px-6 py-2.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-semibold shadow-sm flex items-center gap-2 transition-all" id="saveBtn" type="button">
+              <span class="material-symbols-outlined text-[18px]" id="saveBtnIcon">save</span>
+              <span id="saveBtnText">Save Changes</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Micro-toast feedback -->
+      <div class="fixed bottom-24 right-8 bg-inverse-surface text-inverse-on-surface px-4 py-3 rounded-lg shadow-xl flex items-center gap-2.5 opacity-0 translate-y-4 pointer-events-none transition-all duration-300 z-50" id="toastNotification">
+        <span class="material-symbols-outlined text-secondary-fixed text-[20px]">check_circle</span>
+        <span class="font-label-md text-label-md font-medium" id="toastMessage">Changes synchronized successfully.</span>
+      </div>
+    </section>
   </main>
 </div>
 
@@ -789,5 +1213,6 @@
 <script src="js/exams.js"></script>
 <script src="js/planner.js"></script>
 <script src="js/navigation.js"></script>
+<script src="js/settings.js"></script>
 </body>
 </html>
