@@ -142,8 +142,11 @@
 
   function effectiveDark(state) {
     if (state.theme === "dark") return true;
-    if (state.theme === "system") return systemPrefersDark();
-    return !!(state.toggles["sunset-shift"] && isNighttime()); // theme === "light"
+    if (state.theme === "system"){
+      const hour = new Date().getHours();
+      return hour >= 19 || hour < 6;
+    }
+    if(state.theme === "light") return false;
   }
 
   /* ---------- application ---------- */
