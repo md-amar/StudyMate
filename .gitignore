@@ -1,0 +1,10 @@
+# Environment / secrets — never commit real credentials
+.env
+.env.local
+.env.*.local
+
+# Node
+node_modules/
+
+.vercel
+.env*

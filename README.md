@@ -41,3 +41,49 @@ The AI planner extends the existing StudyMate application by turning static acad
 
 Goal:
 The goal of StudyMate is to move from a simple academic management application toward an intelligent learning companion that continuously helps students decide what to study, when to study it, and how to adjust their plan when circumstances change.
+
+## Local AI with Ollama
+
+The **Generate Best Notes** button (AI Planner) calls the StudyMate backend at `POST /api/generate-notes`. The backend builds a personalized, mastery-adaptive prompt from the planner's learning-gap data and calls **Ollama** running on the local machine with the **Llama 3.2** model. The browser never talks to Ollama directly — only the backend does.
+
+Every developer who wants to use AI note generation locally needs their own Ollama installation:
+
+1. **Install Ollama:** https://ollama.com/download
+2. **Verify the installation:**
+   ```bash
+   ollama --version
+   ```
+3. **Download the model** (one time, ~2 GB):
+   ```bash
+   ollama pull llama3.2
+   ```
+4. **Verify the model:**
+   ```bash
+   ollama list
+   ```
+   Optional quick test chat:
+   ```bash
+   ollama run llama3.2
+   ```
+5. **Configure environment variables** — copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env    # Windows: copy .env.example .env
+   ```
+   Contents:
+   ```
+   OLLAMA_BASE_URL=http://localhost:11434
+   OLLAMA_MODEL=llama3.2
+   ```
+   `localhost` means **your own machine** — you never need anyone else's IP address. Keep Ollama running while using the app.
+6. **Start StudyMate:**
+   ```bash
+   node dev-server.js
+   ```
+   Then open http://localhost:3000 (requires Node.js 18+).
+7. **Test AI notes:** open **AI Planner → Generate Best Notes**, pick a learning gap, click **Generate Notes**. Notes appear in the modal; use *Save to Notes* to store them in the normal Notes module.
+
+Notes:
+
+- The backend (not the browser) communicates with Ollama at `${OLLAMA_BASE_URL}/api/generate` using the configured `OLLAMA_MODEL`.
+- Alternative local workflow: `npx vercel dev` (requires the Vercel CLI and a linked Vercel project).
+- **Production limitation:** a deployed Vercel function cannot reach your laptop's `localhost` Ollama. For the public deployment to generate notes, `OLLAMA_BASE_URL` must point to a publicly reachable Ollama server (set it in the Vercel dashboard). Local development works out of the box.

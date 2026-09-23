@@ -192,3 +192,18 @@ noteEls.dashboardGrid.addEventListener("click", event => {
 
 /* ----- init ----- */
 renderAllNotes();
+
+/* Exposed for js/ai-notes.js so AI-generated notes land in the same
+ * store and UI as manual notes. Purely additive — existing behavior
+ * is untouched. */
+window.addGeneratedNote = function (noteData) {
+  notes.unshift({
+    id: makeId("note"),
+    title: String(noteData.title || "Untitled"),
+    subject: String(noteData.subject || "General"),
+    content: String(noteData.content || ""),
+    updatedAt: Date.now()
+  });
+  saveNotes();
+  renderAllNotes();
+};
