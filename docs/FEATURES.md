@@ -1,46 +1,65 @@
-# StudyMate Features
+# Features
 
-## Academic management
+## Dashboard
 
-- Student dashboard
-- Timetable/class management
-- Exam management
-- Exam countdown
-- Notes management
-- Academic CRUD workflows
+Provides the main academic overview and navigation into StudyMate modules.
+
+## Timetable
+
+Manages classes and academic schedule information used by the planner.
+
+## Exams
+
+Tracks examination information and countdown-related data.
+
+## Notes
+
+Provides the normal notes workflow. AI-generated material is intended to be integrated with the notes workflow rather than becoming a separate, isolated storage system.
 
 ## AI Planner
 
-The planner is designed around:
+The planner presents learning gaps and related academic information.
+
+The intended workflow is:
 
 ```text
-Academic information
-      ↓
+Academic data
+   ↓
 Learning gaps
-      ↓
+   ↓
 Priority / urgency
-      ↓
-Available time + timetable constraints
-      ↓
-Study activities
-      ↓
-Progress / completion
-      ↓
+   ↓
+Study planning
+   ↓
+Learning activity
+   ↓
+Progress update
+   ↓
 Replanning
 ```
 
-## AI notes
+## Generate Best Notes
 
-The Generate Best Notes workflow uses the StudyMate backend and Ollama for local LLM generation.
+Generates notes for a selected learning gap through the StudyMate backend and Ollama.
 
-## Planner workflows
+## Schedule replanning and simulation
 
-The UI includes study-session planning and schedule-related actions, including replanning/simulation workflows. These should be described as implemented only to the extent supported by the current source code.
+The UI includes planner actions for schedule replanning and schedule-shift simulation. These should be treated as planner workflows and verified against the actual current implementation before being described as a fully autonomous backend capability.
 
-## Transparency
+## Agent audit information
 
-The application also includes an Agent Audit Trail action intended to make planner decisions more understandable.
+The UI includes an Agent Audit Trail action intended to make planner decisions more transparent.
 
-## Design
+## Design system
 
-See `DESIGN.md` for the project's visual design system and UI direction.
+The visual system is documented in `DESIGN.md`, including:
+
+- Academic Precision theme
+- Scholar Blue primary styling
+- Geist/Inter typography
+- 8px spacing rhythm
+- rounded component language
+- dashboard cards
+- progress indicators
+- countdown styling
+- sidebar navigation
