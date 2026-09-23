@@ -2,23 +2,24 @@
 
 ## Documentation baseline
 
-This documentation pass expands the repository's project documentation and organizes technical information into dedicated guides.
+This documentation pass expands the original project README into a maintainable project guide.
 
-### Added
+### Documented
 
-- Architecture documentation
-- AI/Ollama documentation
-- Development guide
-- Deployment guide
-- Feature catalogue
-- Troubleshooting guide
-- Contribution guide
+- project purpose
+- architecture
+- local development
+- Vercel development
+- Ollama setup
+- AI note-generation flow
+- deployment limitations
+- troubleshooting
+- feature overview
+- contribution workflow
+- `.vercel` behavior
 
-### Clarified
+### Important implementation note
 
-- Local Ollama versus public Vercel deployment
-- Local development ports
-- `.vercel` as ignored local Vercel metadata
-- AI note-generation request flow
+The current repository contains a working backend design for local Ollama note generation. Public Vercel AI generation requires an Ollama endpoint that the deployed backend can reach; a laptop-local `localhost:11434` endpoint is not reachable from a remote Vercel function.
 
-Future material changes to application behavior should be added here with an accurate date/version or commit reference rather than invented history.
+Future code changes should update this changelog when behavior changes materially.
