@@ -1,94 +1,38 @@
 # StudyMate
 
-> **An adaptive academic planning platform that helps students organize what to study, when to study it, and how to adjust the plan as their academic situation changes.**
+> **StudyMate** is an adaptive academic planning application for students. It combines timetable management, exam tracking, notes, performance data, and an AI-assisted learning planner.
 
 ## Problem
 
-Students often plan their studies using a static timetable, while real academic work is dynamic. Upcoming exams, weak topics, available time, missed sessions, and changing performance can all affect what should be studied next.
+Students often plan their studies using a static timetable. Real academic work is dynamic: exams move closer, mastery changes, study sessions are missed, and available time changes.
 
-A timetable can tell a student **when** to study, but it does not by itself continuously adapt the learning plan.
+StudyMate is designed around an adaptive workflow:
 
-## Solution
+1. Analyze current academic performance.
+2. Identify priority learning gaps.
+3. Select learning resources.
+4. Build study activities around timetable constraints.
+5. Track completed or missed activities.
+6. Reassess progress.
+7. Replan future activities when conditions change.
+8. Verify the revised plan against time and learning objectives.
 
-StudyMate combines academic management with an adaptive learning-planning workflow.
+## Main modules
 
-The application brings together:
-
-- Timetable and class management
+- Dashboard
+- Timetable management
+- Class management
 - Exam management and countdowns
 - Notes management
-- Learning-gap and performance information
-- AI-assisted study planning
-- AI-generated study notes through Ollama
-- Study-session planning and replanning workflows
-- Schedule/constraint-oriented planning
+- AI Planner
+- Learning-gap prioritization
+- Study-session planning
+- Quiz/score logging
+- Schedule simulation/replanning UI
+- Agent audit information
+- Local AI note generation with Ollama
 
-### Core workflow
-
-```text
-Academic information
-        ↓
-Performance & learning gaps
-        ↓
-Priority / urgency
-        ↓
-Available time + timetable constraints
-        ↓
-Study activities
-        ↓
-Complete / miss activities
-        ↓
-Reassess progress
-        ↓
-Replan future activities
-```
-
-## Key features
-
-### Academic management
-
-- Student dashboard
-- Timetable management
-- Add/manage classes
-- Exam management
-- Exam countdown
-- Notes management
-- Academic CRUD workflows
-
-### AI Planner
-
-The AI Planner extends the academic-management layer with an adaptive planning workflow. It is designed to use learning gaps, performance, exams, available time, and timetable constraints when planning study activities.
-
-### AI note generation
-
-The **Generate Best Notes** workflow sends a selected learning gap to the StudyMate backend. The backend builds a mastery-aware prompt and calls Ollama using the configured model.
-
-The browser does **not** call Ollama directly.
-
-```text
-AI Planner
-    ↓
-POST /api/generate-notes
-    ↓
-StudyMate backend
-    ↓
-Ollama /api/generate
-    ↓
-Configured LLM
-    ↓
-Generated study notes
-```
-
-## Technology
-
-- HTML5
-- CSS3
-- Vanilla JavaScript
-- Node.js local API server
-- Vercel-compatible API functions
-- Ollama for local LLM inference
-- Llama 3.2 model configuration
-- Browser-side persistence used by the current application
+> The exact availability of a feature depends on the current implementation in the repository. This README documents the intended application workflow without claiming unsupported backend behavior.
 
 ## Project structure
 
@@ -108,71 +52,41 @@ StudyMate/
 └── README.md
 ```
 
-See the [`docs/`](docs/) directory for detailed technical documentation.
-
 ## Local development
 
-### Prerequisites
+### Requirements
 
-- Git
-- Node.js 18+
-- Ollama (required for local AI note generation)
+- Node.js 18+ is required by the project documentation.
+- Ollama is required only for local AI note generation.
+- No `npm install` is required for the zero-dependency local server.
 
-### 1. Clone the repository
+### 1. Clone
 
 ```bash
 git clone https://github.com/md-amar/StudyMate.git
 cd StudyMate
 ```
 
-### 2. Install/configure Ollama
+### 2. Configure Ollama
 
-Verify Ollama:
+Install Ollama, then verify:
 
 ```bash
 ollama --version
-```
-
-Pull the model:
-
-```bash
 ollama pull llama3.2
-```
-
-Check installed models:
-
-```bash
 ollama list
 ```
 
-Optional interactive test:
-
-```bash
-ollama run llama3.2
-```
-
-### 3. Configure environment variables
-
-Copy `.env.example` to `.env`:
-
-```bash
-# macOS/Linux
-cp .env.example .env
-
-# Windows PowerShell
-Copy-Item .env.example .env
-```
-
-Default local configuration:
+The application expects these defaults:
 
 ```env
 OLLAMA_BASE_URL=http://localhost:11434
 OLLAMA_MODEL=llama3.2
 ```
 
-Use the exact model name shown by `ollama list` if you have selected a different model.
+If you use a different model, set `OLLAMA_MODEL` to the exact model name returned by `ollama list`.
 
-### 4. Start StudyMate
+### 3. Start the local application
 
 ```bash
 node dev-server.js
@@ -184,29 +98,29 @@ Open:
 http://localhost:3000
 ```
 
-### 5. Test AI notes
+The local server exposes the AI endpoint at:
 
-Open:
+```text
+POST /api/generate-notes
+```
 
-**AI Planner → Generate Best Notes**
+The browser calls StudyMate's backend. The backend calls Ollama. The browser does not need to call Ollama directly.
 
-Select a learning gap and generate the notes. The generated content can then be saved through the normal Notes workflow.
+## Vercel development
 
-## Vercel local development
-
-The project can also be tested using the Vercel CLI:
+The repository also documents an alternative local workflow using the Vercel CLI:
 
 ```bash
 npx vercel dev
 ```
 
-This is useful for testing the Vercel-style API environment locally.
+This is useful when you want to test the Vercel-style function environment locally.
 
-## Important Ollama deployment limitation
+## Important AI deployment limitation
 
-Ollama running on your laptop is a **local service**. A deployed Vercel function cannot normally reach your laptop's `localhost:11434`.
+Local Ollama and a public Vercel deployment are different environments.
 
-### Local
+When StudyMate runs on your computer:
 
 ```text
 Browser
@@ -218,21 +132,32 @@ Ollama on your computer
 Llama model
 ```
 
-### Public deployment
+When StudyMate is deployed to Vercel:
 
 ```text
 Browser
    ↓
-Vercel
+Vercel function
    ↓
-StudyMate API
+OLLAMA_BASE_URL
    ↓
-Ollama endpoint reachable by Vercel
+Ollama server reachable by Vercel
 ```
 
-Therefore, configuring Vercel with `OLLAMA_BASE_URL=http://localhost:11434` does **not** make it connect to the Ollama process running on your personal computer. A production AI deployment requires an AI endpoint that the deployed backend can actually reach.
+A deployed Vercel function cannot normally reach `http://localhost:11434` on your personal computer. Therefore, public AI note generation requires an Ollama endpoint that is reachable from the deployed server, with the appropriate environment configuration.
 
-Do not expose an Ollama server publicly without appropriate network controls, authentication, and resource protection.
+## AI note-generation flow
+
+The `/api/generate-notes` backend:
+
+1. Receives the selected learning gap.
+2. Validates the request.
+3. Builds a mastery-adaptive educational prompt.
+4. Calls Ollama's `/api/generate` endpoint.
+5. Returns generated notes and metadata.
+6. Reports connection/model/time-out failures as user-facing errors.
+
+The current backend uses `llama3.2` as its default model and a 120-second generation timeout.
 
 ## Troubleshooting
 
@@ -244,11 +169,13 @@ Check:
 ollama list
 ```
 
-Then test:
+Then make sure the Ollama service is running and test:
 
 ```bash
 ollama run llama3.2
 ```
+
+Keep Ollama available while using local AI generation.
 
 ### Model not found
 
@@ -258,27 +185,35 @@ Run:
 ollama list
 ```
 
-Then use the exact model identifier in `OLLAMA_MODEL`.
+Copy the exact model name and configure:
+
+```env
+OLLAMA_MODEL=your-exact-model-name
+```
+
+Do not type a model name directly as if it were a PowerShell command. For example, `llama3.2:1b` is a model identifier, not a command.
+
+### AI works locally but not from the Vercel URL
+
+This is expected if the deployed backend is configured with:
+
+```text
+OLLAMA_BASE_URL=http://localhost:11434
+```
+
+See `docs/AI_NOTES.md` and `docs/DEPLOYMENT.md`.
 
 ### `127.0.0.1:5500` refuses the connection
 
-Port `5500` is commonly used by VS Code Live Server. StudyMate's documented Node server runs on port `3000`:
+Port 5500 is commonly used by Live Server. If no server is running on that port, the browser will show `ERR_CONNECTION_REFUSED`.
+
+For this project, use the documented local server:
 
 ```bash
 node dev-server.js
 ```
 
-Then open `http://localhost:3000`.
-
-### AI works locally but not on the Vercel URL
-
-Check the deployment architecture first. A remote Vercel function cannot use your personal computer's local Ollama service through `localhost`.
-
-See:
-
-- [`docs/AI_NOTES.md`](docs/AI_NOTES.md)
-- [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)
-- [`docs/TROUBLESHOOTING.md`](docs/TROUBLESHOOTING.md)
+and open `http://localhost:3000`.
 
 ## Security
 
@@ -290,26 +225,15 @@ Never commit:
 - private credentials
 - machine-specific secrets
 
-The `.vercel` directory is local Vercel metadata and is intentionally ignored by Git.
+The repository's `.gitignore` excludes environment files and `.vercel`.
 
 ## Documentation
 
-| Document | Purpose |
-|---|---|
-| [`DESIGN.md`](DESIGN.md) | UI/design system |
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | System architecture and data flow |
-| [`docs/AI_NOTES.md`](docs/AI_NOTES.md) | Ollama and AI note generation |
-| [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) | Developer setup and workflow |
-| [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | Deployment and environment considerations |
-| [`docs/FEATURES.md`](docs/FEATURES.md) | Feature catalogue |
-| [`docs/TROUBLESHOOTING.md`](docs/TROUBLESHOOTING.md) | Common development/runtime issues |
-| [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) | Contribution workflow |
-| [`docs/CHANGELOG.md`](docs/CHANGELOG.md) | Documentation/project history |
-
-## Future direction
-
-Potential future work includes persistent cloud storage, multi-user synchronization, stronger production AI hosting, richer analytics, and deeper adaptive-learning feedback loops. These are future directions, not claims about the current implementation.
-
-## Contributing
-
-See [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) before making changes.
+- [Architecture](docs/ARCHITECTURE.md)
+- [Local development](docs/DEVELOPMENT.md)
+- [AI notes and Ollama](docs/AI_NOTES.md)
+- [Deployment](docs/DEPLOYMENT.md)
+- [Features](docs/FEATURES.md)
+- [Troubleshooting](docs/TROUBLESHOOTING.md)
+- [Contributing](docs/CONTRIBUTING.md)
+- [Changelog](docs/CHANGELOG.md)
