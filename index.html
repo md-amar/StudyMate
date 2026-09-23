@@ -347,6 +347,10 @@
             <span class="material-symbols-outlined" style="font-size: 18px;">quiz</span>
             <span>Log Quiz / Score</span>
           </button>
+          <button id="planner-generate-notes-btn" type="button" class="bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md py-2 px-3.5 rounded-lg border border-outline-variant transition-colors flex items-center gap-2">
+            <span class="material-symbols-outlined" style="font-size: 18px;">auto_stories</span>
+            <span>Generate Best Notes</span>
+          </button>
           <button id="planner-simulate-conflict-btn" type="button" class="bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md py-2 px-3.5 rounded-lg border border-outline-variant transition-colors flex items-center gap-2" title="Simulate adding an urgent class to test automatic constraint replanning">
             <span class="material-symbols-outlined" style="font-size: 18px;">shuffle</span>
             <span>Simulate Schedule Shift</span>
@@ -1207,6 +1211,60 @@
   </div>
 </div>
 
+<!-- AI Generated Notes Modal (Ollama via backend; wired by js/ai-notes.js) -->
+<div id="ai-notes-modal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+  <div class="bg-surface-container-lowest rounded-2xl shadow-2xl p-stack-md max-w-2xl w-full border border-outline-variant flex flex-col max-h-[85vh]">
+    <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center gap-2">
+        <span class="p-1.5 rounded-lg bg-primary/10 text-primary">
+          <span class="material-symbols-outlined" style="font-size: 22px;">auto_stories</span>
+        </span>
+        <div>
+          <h3 class="font-headline-md text-headline-md text-on-surface">Generate Best Notes</h3>
+          <p class="font-body-md text-xs text-on-surface-variant">AI notes personalized to your learning gap &bull; generated locally via Ollama</p>
+        </div>
+      </div>
+      <button id="close-ai-notes-modal" type="button" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-variant hover:text-primary" aria-label="Close notes modal">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-2 mb-3">
+      <div class="flex-1">
+        <label class="font-label-md text-label-md text-on-surface block mb-1" for="ai-notes-topic-select">Learning Gap</label>
+        <select id="ai-notes-topic-select" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+          <!-- Populated from planner data by js/ai-notes.js -->
+        </select>
+      </div>
+      <div class="flex items-end">
+        <button id="ai-notes-generate-btn" type="button" class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-4 py-2 rounded-lg shadow-sm flex items-center gap-1.5 transition-colors disabled:opacity-60">
+          <span class="material-symbols-outlined" style="font-size: 18px;">auto_awesome</span>
+          <span id="ai-notes-generate-label">Generate Notes</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="ai-notes-status" class="hidden"></div>
+
+    <div id="ai-notes-output" class="hidden flex-1 overflow-y-auto planner-scroll whitespace-pre-wrap font-body-md text-sm text-on-surface leading-relaxed bg-surface-container-low rounded-xl p-4 border border-outline-variant/30"></div>
+
+    <div id="ai-notes-actions" class="hidden items-center justify-between pt-3 mt-3 border-t border-outline-variant/30">
+      <span id="ai-notes-model-tag" class="text-[11px] font-mono text-on-surface-variant bg-surface-container px-2 py-0.5 rounded"></span>
+      <div class="flex items-center gap-2">
+        <button id="ai-notes-copy-btn" type="button" class="bg-surface-container-low hover:bg-surface-container text-on-surface border border-outline-variant px-3 py-2 rounded-lg font-label-md text-label-md flex items-center gap-1 transition-colors">
+          <span class="material-symbols-outlined" style="font-size: 16px;">content_copy</span> Copy
+        </button>
+        <button id="ai-notes-save-btn" type="button" class="bg-primary hover:bg-primary-container text-on-primary px-3 py-2 rounded-lg font-label-md text-label-md font-semibold flex items-center gap-1 shadow-sm transition-colors">
+          <span class="material-symbols-outlined" style="font-size: 16px;">note_add</span> Save to Notes
+        </button>
+        <button id="ai-notes-regenerate-btn" type="button" class="bg-surface-container-low hover:bg-surface-container text-on-surface border border-outline-variant px-3 py-2 rounded-lg font-label-md text-label-md flex items-center gap-1 transition-colors">
+          <span class="material-symbols-outlined" style="font-size: 16px;">refresh</span> Regenerate
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="js/utils.js"></script>
 <script src="js/notes.js"></script>
 <script src="js/timetable.js"></script>
@@ -1214,5 +1272,6 @@
 <script src="js/planner.js"></script>
 <script src="js/navigation.js"></script>
 <script src="js/settings.js"></script>
+<script src="js/ai-notes.js"></script>
 </body>
 </html>
