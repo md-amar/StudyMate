@@ -6,37 +6,53 @@ Read:
 
 - `README.md`
 - `DESIGN.md`
-- the relevant documentation in `docs/`
+- relevant module documentation in `docs/`
 
-Understand whether the change affects the frontend, local Node server, API function, or Ollama integration.
+Understand which layer you are changing:
 
-## Focused changes
+- UI
+- browser-side JavaScript
+- local Node server
+- Vercel function
+- Ollama integration
 
-For a bug fix:
+## Keep changes focused
 
-1. Reproduce the issue.
-2. Identify the responsible module.
-3. Make the smallest safe change.
-4. Test the original scenario.
-5. Test an adjacent scenario.
-6. Review `git diff`.
-7. Commit only intentional changes.
+Prefer small changes that solve one problem at a time.
 
-## AI changes
+For bug fixes:
+
+1. reproduce the bug
+2. identify the responsible module
+3. make the smallest safe fix
+4. test the original scenario
+5. test an adjacent scenario
+6. inspect `git diff`
+7. commit
+
+## AI-related changes
 
 When changing AI note generation, test:
 
-- invalid input
 - missing topic
+- invalid input
 - Ollama unavailable
 - model unavailable
 - slow generation
 - successful generation
 - generated content returned to the UI
-- normal Notes workflow integration
+- saving generated notes to the normal Notes workflow
 
 ## Documentation
 
-Update documentation when a change affects setup, environment variables, architecture, API behavior, deployment, or user-facing features.
+Update documentation when a change affects:
 
-Do not describe planned behavior as implemented.
+- setup
+- environment variables
+- architecture
+- API behavior
+- deployment
+- user-facing features
+- troubleshooting
+
+Do not document an intended feature as completed unless the implementation actually supports it.
