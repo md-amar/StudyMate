@@ -1,12 +1,6 @@
 # Development Guide
 
-## Prerequisites
-
-- Git
-- Node.js 18+
-- Ollama for local AI note generation
-
-## Start locally
+## Start here
 
 From the repository root:
 
@@ -14,47 +8,62 @@ From the repository root:
 node dev-server.js
 ```
 
-Open:
+Then:
 
 ```text
 http://localhost:3000
 ```
 
-## Configure Ollama
-
-```bash
-ollama --version
-ollama pull llama3.2
-ollama list
-```
-
-Copy `.env.example` to `.env` and configure the Ollama URL/model as required.
-
 ## Vercel local development
+
+If you are testing the Vercel environment:
 
 ```bash
 npx vercel dev
 ```
 
-This is useful when testing the Vercel-style API environment locally.
+## Useful checks
 
-## Useful Git checks
+### Check Node
+
+```bash
+node --version
+```
+
+### Check Ollama
+
+```bash
+ollama --version
+ollama list
+```
+
+### Check Git state
 
 ```bash
 git status
+```
+
+### Review changes
+
+```bash
 git diff
 ```
 
 ## Recommended development loop
 
-1. Reproduce the issue.
-2. Identify the responsible module.
-3. Make a focused change.
-4. Test the original scenario.
-5. Test a nearby scenario that could be affected.
-6. Review `git diff`.
-7. Commit only intentional changes.
+1. Make one focused change.
+2. Save the files.
+3. Start/restart the correct local server.
+4. Test the affected feature.
+5. Test a nearby feature that could be affected.
+6. Run `git diff`.
+7. Run `git status`.
+8. Commit only intentional files.
 
-## Port note
+## Do not confuse servers
 
-VS Code Live Server commonly uses port `5500`. StudyMate's documented Node server uses port `3000`. A refused connection on `127.0.0.1:5500` means nothing is listening on that port; it does not by itself indicate that the StudyMate application is broken.
+Live Server often uses port 5500.
+
+StudyMate's documented Node server uses port 3000.
+
+If `127.0.0.1:5500` shows `ERR_CONNECTION_REFUSED`, that means nothing is currently listening on port 5500. It does not by itself mean the StudyMate application is broken.
